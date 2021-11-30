@@ -105,6 +105,11 @@ namespace dx9
 		return *m_pRenderSystem;
 	}
 
+	const HWND& Window::GetHandle() const
+	{
+		return m_hWnd;
+	}
+
 
 // Modifiers:
 

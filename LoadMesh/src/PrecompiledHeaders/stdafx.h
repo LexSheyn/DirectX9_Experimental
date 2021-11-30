@@ -36,4 +36,10 @@ typedef double             float64;
 #include <d3d9.h>
 #include <d3dx9.h>
 
+// Assimp:
+#include <assimp/Importer.hpp>      // C++ importer interface
+#include <assimp/scene.h>           // Output data structure
+#include <assimp/postprocess.h>     // Post processing flags
+#include <assimp/cimport.h>
+
 #endif // STDAFX_H

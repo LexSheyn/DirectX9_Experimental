@@ -8,7 +8,7 @@ int32 __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 
 	try
 	{
-		return dx9::Application().Run();
+		return Application().Run();
 	}
 	catch (const std::exception& exception)
 	{

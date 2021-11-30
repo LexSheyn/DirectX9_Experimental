@@ -3,37 +3,35 @@
 
 #include "../Window/Window.h"
 #include "../Timer/Timer.h"
+#include "../MeshLoader/MeshLoader.h"
 
-namespace dx9
+class Application
 {
-	class Application
-	{
-	public:
+public:
 
-	// Constructors and Destructor:
+// Constructors and Destructor:
 
-		Application();
+	Application();
 
-		~Application();
+	~Application();
 
-	// Functions:
+// Functions:
 
-		int32 Run();
+	int32 Run();
 
-	private:
+private:
 
-	// Private Functions:
+// Private Functions:
 
-		void DoFrame();
+	void DoFrame();
 
-	// Components:
+// Components:
 
-		Window m_Window;
-		Timer  m_Timer;
+	dx9::Window m_Window;
+	dx9::Timer  m_Timer;
 
-	// TEST:
-		ID3DXMesh* mesh = nullptr;
-	};
-}
+// TEST:
+	ID3DXMesh* mesh = nullptr;
+};
 
 #endif // APPLICATION_H

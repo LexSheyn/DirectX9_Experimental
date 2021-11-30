@@ -27,6 +27,8 @@ namespace dx9
 
 		RenderSystem& GetRenderSystem();
 
+		const HWND& GetHandle() const;
+
 	// Modifiers:
 
 		void SetTitle(const std::string& title);
