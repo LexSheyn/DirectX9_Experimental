@@ -32,7 +32,7 @@ namespace dx9
 	// Step 3: Fill out the D3DPRESENT_PARAMETERS structure:
 
 		m_PresentParameters.BackBufferWidth            = m_Width;
-		m_PresentParameters.BackBufferHeight           = m_Width;
+		m_PresentParameters.BackBufferHeight           = m_Height;
 		m_PresentParameters.Windowed                   = m_bWindowed;
 		m_PresentParameters.BackBufferCount            = 1u;
 		m_PresentParameters.BackBufferFormat           = D3DFMT_A8R8G8B8;		
@@ -57,16 +57,16 @@ namespace dx9
 
 	// Create Viewport:
 
-	//	ZeroMemory(&m_Viewport, sizeof(D3DVIEWPORT9));
-	//
-	//	m_Viewport.X      = 0;
-	//	m_Viewport.Y      = 0;
-	//	m_Viewport.Width  = m_Width;
-	//	m_Viewport.Height = m_Height;
-	//	m_Viewport.MinZ   = 0;
-	//	m_Viewport.MaxZ   = 1;
-	//	
-	//	m_pDevice->SetViewport(&m_Viewport);
+		ZeroMemory(&m_Viewport, sizeof(D3DVIEWPORT9));
+	
+		m_Viewport.X      = 0;
+		m_Viewport.Y      = 0;
+		m_Viewport.Width  = m_Width;
+		m_Viewport.Height = m_Height;
+		m_Viewport.MinZ   = 0;
+		m_Viewport.MaxZ   = 1;
+		
+		m_pDevice->SetViewport(&m_Viewport);
 	}
 
 	RenderSystem::~RenderSystem()
@@ -87,6 +87,10 @@ namespace dx9
 
 	void RenderSystem::CreateVertexBuffer()
 	{
+	//
+	// Create vertex buffer:
+	//
+
 		m_pDevice->CreateVertexBuffer( 8u * sizeof(Vertex),
 			                           D3DUSAGE_WRITEONLY,
 			                           Vertex::FVF,
@@ -94,7 +98,7 @@ namespace dx9
 			                           &m_pVertexBuffer,
 			                           nullptr);
 
-				void* pVertices = nullptr;
+		void* pVertices = nullptr;
 
 		m_pVertexBuffer->Lock( 0u, 0u, (void**)&pVertices, 0 );
 
@@ -118,6 +122,8 @@ namespace dx9
 
 	void RenderSystem::CreateIndexBuffer()
 	{
+	// Create index buffers.
+
 		m_pDevice->CreateIndexBuffer( 36u * sizeof(int32),
 			                          D3DUSAGE_WRITEONLY,
 			                          D3DFMT_INDEX32,
@@ -125,13 +131,13 @@ namespace dx9
 			                          &m_pIndexBuffer,
 			                          nullptr);
 
-				void* pIndices = nullptr;
+		void* pIndices = nullptr;
 
 		m_pIndexBuffer->Lock( 0, 0, (void**)&pIndices, 0 );
 
 		int32 indices[36] = {};
 
-	// front side
+		// front side
 		indices[0]  = 0; indices[1]  = 1; indices[2]  = 2;
 		indices[3]  = 0; indices[4]  = 2; indices[5]  = 3;
 
@@ -162,9 +168,7 @@ namespace dx9
 
 	void RenderSystem::SetView()
 	{
-	//
 	// Position and aim the camera.
-	//
 
 		D3DXVECTOR3 position( 0.0f, 0.0f, -5.0f );
 		D3DXVECTOR3 target( 0.0f, 0.0f, 0.0f );
@@ -175,9 +179,7 @@ namespace dx9
 
 		m_pDevice->SetTransform( D3DTS_VIEW, &view);
 
-	//
 	// Set the projection matrix.
-	//
 
 		D3DXMATRIX proj;
 		D3DXMatrixPerspectiveFovLH( &proj,
@@ -188,43 +190,14 @@ namespace dx9
 
 		m_pDevice->SetTransform(D3DTS_PROJECTION, &proj);
 
-	//
 	// Switch to wireframe mode.
-	//
 
 		m_pDevice->SetRenderState( D3DRS_FILLMODE, D3DFILL_WIREFRAME );
 	}
 
 	void RenderSystem::Render( const float& dt )
 	{
-	// -------------------- SETUP --------------------
-	//
-	// Create vertex and index buffers.
-	//
-
-
-	//
-	// Fill the buffers with the cube data.
-	//
-
-	// Define unique vertices:
-
-
-
-	// Define the triangles of the cube:
-
-
-
-	//
-	// Position and aim the camera.
-	//
-
-
-
-	// -------------------- DISPLAY --------------------
-	//
 	// Spin the cube:
-	//
 
 		D3DXMATRIX Rx, Ry;
 
@@ -242,20 +215,18 @@ namespace dx9
 
 	// reset angle to zero when angle reaches 2*PI:
 
-	//	if (y >= 6.28f)
-	//	{
-	//		y = 0.0f;
-	//	}
+		if (y >= 6.28f)
+		{
+			y = 0.0f;
+		}
 
-	// Combine x- and y-axis rotation transformations:
+	// Combine x-axis and y-axis rotation transformations:
 
 		D3DXMATRIX p = Rx * Ry;
 
 		m_pDevice->SetTransform( D3DTS_WORLD, &p );
 
-	//
 	// Draw the scene:
-	//
 
 		m_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x66666666, 1.0f, 0 );
 		m_pDevice->BeginScene();
