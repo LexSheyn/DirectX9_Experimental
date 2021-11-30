@@ -217,6 +217,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\RenderSystem\Color.cpp" />
     <ClCompile Include="src\RenderSystem\D3DUtility.cpp" />
     <ClCompile Include="src\RenderSystem\RenderSystem.cpp" />
     <ClCompile Include="src\RenderSystem\Vertex.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="src\InputDevices\Mouse\Mouse.h" />
     <ClInclude Include="src\InputDevices\Mouse\MouseEvent.h" />
     <ClInclude Include="src\PrecompiledHeaders\stdafx.h" />
+    <ClInclude Include="src\RenderSystem\Color.h" />
     <ClInclude Include="src\RenderSystem\D3DUtility.h" />
     <ClInclude Include="src\RenderSystem\RenderSystem.h" />
     <ClInclude Include="src\RenderSystem\Vertex.h" />

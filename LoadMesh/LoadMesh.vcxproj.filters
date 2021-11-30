@@ -57,6 +57,9 @@
     <ClCompile Include="src\RenderSystem\Vertex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\RenderSystem\Color.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Window\Window.h">
@@ -96,6 +99,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\RenderSystem\Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderSystem\Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,6 +11,8 @@ namespace dx9
 		m_Window.GetRenderSystem().CreateVertexBuffer();
 		m_Window.GetRenderSystem().CreateIndexBuffer();
 		m_Window.GetRenderSystem().SetView();
+
+		D3DXCreateTorus( &m_Window.GetRenderSystem().GetDevice(), 1.0f, 2.0f, 30u, 30u, &mesh, nullptr );
 	}
 
 	Application::~Application()
@@ -46,7 +48,7 @@ namespace dx9
 
 	void Application::DoFrame()
 	{
-		m_Window.GetRenderSystem().Render( 0.01f );
+		m_Window.GetRenderSystem().Render( mesh, 0.01f );
 	}
 
 }

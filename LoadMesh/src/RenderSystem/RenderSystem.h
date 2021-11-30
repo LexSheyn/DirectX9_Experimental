@@ -28,7 +28,13 @@ namespace dx9
 		void SetView();
 
 		// TEST
-		void Render( const float& dt );		
+		void Render( const float& dt );	
+
+		void Render( ID3DXMesh* mesh, const float& dt );
+
+	// Accessors:
+
+		IDirect3DDevice9& GetDevice() const;
 
 	private:
 

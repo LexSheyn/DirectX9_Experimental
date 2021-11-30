@@ -124,9 +124,9 @@ namespace dx9
 	{
 	// Create index buffers.
 
-		m_pDevice->CreateIndexBuffer( 36u * sizeof(int32),
+		m_pDevice->CreateIndexBuffer( 36u * sizeof(WORD),
 			                          D3DUSAGE_WRITEONLY,
-			                          D3DFMT_INDEX32,
+			                          D3DFMT_INDEX16,
 			                          D3DPOOL_MANAGED,
 			                          &m_pIndexBuffer,
 			                          nullptr);
@@ -135,7 +135,7 @@ namespace dx9
 
 		m_pIndexBuffer->Lock( 0, 0, (void**)&pIndices, 0 );
 
-		int32 indices[36] = {};
+		WORD indices[36] = {};
 
 		// front side
 		indices[0]  = 0; indices[1]  = 1; indices[2]  = 2;
@@ -193,6 +193,11 @@ namespace dx9
 	// Switch to wireframe mode.
 
 		m_pDevice->SetRenderState( D3DRS_FILLMODE, D3DFILL_WIREFRAME );
+
+	// Turn on Gouraud interpolater pixel shading:
+
+	//	m_pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
+
 	}
 
 	void RenderSystem::Render( const float& dt )
@@ -231,15 +236,71 @@ namespace dx9
 		m_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x66666666, 1.0f, 0 );
 		m_pDevice->BeginScene();
 
-		m_pDevice->SetStreamSource( 0, m_pVertexBuffer, 0, sizeof(Vertex) );
-		m_pDevice->SetIndices( m_pIndexBuffer );
-		m_pDevice->SetFVF( Vertex::FVF );
+	//	m_pDevice->SetStreamSource( 0, m_pVertexBuffer, 0, sizeof(Vertex) );
+	//	m_pDevice->SetFVF(Vertex::FVF);
+	//	m_pDevice->SetIndices( m_pIndexBuffer );		
 
 	// Draw cube:
 
-		m_pDevice->DrawIndexedPrimitive( D3DPT_TRIANGLELIST, 0, 0u, 8u, 0u, 12u );
+	//	m_pDevice->DrawIndexedPrimitive( D3DPT_TRIANGLELIST, 0, 0u, 8u, 0u, 12u );
+
+		// TEST
+		ID3DXMesh* mesh = nullptr;
+		D3DXCreateTorus( m_pDevice, 1.0f, 2.0f, 30u, 30u, &mesh, nullptr );
+		mesh->DrawSubset(0);
 		
 		m_pDevice->EndScene();
 		m_pDevice->Present( nullptr, nullptr, nullptr, nullptr );
+	}
+	
+	void RenderSystem::Render(ID3DXMesh* mesh, const float& dt)
+	{
+	// Spin the cube:
+
+		D3DXMATRIX Rx, Ry;
+
+	// rotate 45 degrees on x-axis:
+
+		D3DXMatrixRotationX( &Rx, 3.14f / 4.0f);
+
+	// incremement y-rotation angle each frame:
+
+		static float32 y = 0.0f;
+
+		D3DXMatrixRotationY( &Ry, y );
+
+		y += dt;
+
+	// reset angle to zero when angle reaches 2*PI:
+
+		if (y >= 6.28f)
+		{
+			y = 0.0f;
+		}
+
+	// Combine x-axis and y-axis rotation transformations:
+
+		D3DXMATRIX p = Rx * Ry;
+
+		m_pDevice->SetTransform( D3DTS_WORLD, &p );
+
+	// Draw the scene:
+
+		m_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x66666666, 1.0f, 0 );
+		m_pDevice->BeginScene();
+
+	//	D3DXCreateTorus( m_pDevice, 1.0f, 2.0f, 30u, 30u, &mesh, nullptr );
+		mesh->DrawSubset(0);
+		
+		m_pDevice->EndScene();
+		m_pDevice->Present( nullptr, nullptr, nullptr, nullptr );
+	}
+
+
+// Accessors:
+
+	IDirect3DDevice9& RenderSystem::GetDevice() const
+	{
+		return *m_pDevice;
 	}
 }

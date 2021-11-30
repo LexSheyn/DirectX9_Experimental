@@ -32,10 +32,7 @@ namespace dx9
 		Timer  m_Timer;
 
 	// TEST:
-
-//		std::vector<std::unique_ptr<class Drawable>> drawables;
-//
-//		static constexpr size_t nDrawables = 180;
+		ID3DXMesh* mesh = nullptr;
 	};
 }
 
