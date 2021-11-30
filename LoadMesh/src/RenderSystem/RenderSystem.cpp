@@ -106,14 +106,14 @@ namespace dx9
 
 		Vertex vertices[8];
 
-		vertices[0] = Vertex( -1.0f, -1.0f, -1.0f );
-		vertices[1] = Vertex( -1.0f,  1.0f, -1.0f );
-		vertices[2] = Vertex(  1.0f,  1.0f, -1.0f );
-		vertices[3] = Vertex(  1.0f, -1.0f, -1.0f );
-		vertices[4] = Vertex( -1.0f, -1.0f,  1.0f );
-		vertices[5] = Vertex( -1.0f,  1.0f,  1.0f );
-		vertices[6] = Vertex(  1.0f,  1.0f,  1.0f );
-		vertices[7] = Vertex(  1.0f, -1.0f,  1.0f );
+		vertices[0] = Vertex( -1.0f, -1.0f, -1.0f, Color::Red );
+		vertices[1] = Vertex( -1.0f,  1.0f, -1.0f, Color::Red );
+		vertices[2] = Vertex(  1.0f,  1.0f, -1.0f, Color::Green );
+		vertices[3] = Vertex(  1.0f, -1.0f, -1.0f, Color::Green );
+		vertices[4] = Vertex( -1.0f, -1.0f,  1.0f, Color::Blue );
+		vertices[5] = Vertex( -1.0f,  1.0f,  1.0f, Color::Blue );
+		vertices[6] = Vertex(  1.0f,  1.0f,  1.0f, Color::White );
+		vertices[7] = Vertex(  1.0f, -1.0f,  1.0f, Color::White );
 
 		memcpy_s( pVertices, sizeof(vertices), vertices, sizeof(vertices) );
 
@@ -192,11 +192,13 @@ namespace dx9
 
 	// Switch to wireframe mode.
 
-		m_pDevice->SetRenderState( D3DRS_FILLMODE, D3DFILL_WIREFRAME );
+	//	m_pDevice->SetRenderState( D3DRS_FILLMODE, D3DFILL_WIREFRAME );
 
 	// Turn on Gouraud interpolater pixel shading:
 
-	//	m_pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
+		m_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+		m_pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
+	//	m_pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_FLAT);
 
 	}
 
@@ -236,18 +238,18 @@ namespace dx9
 		m_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x66666666, 1.0f, 0 );
 		m_pDevice->BeginScene();
 
-	//	m_pDevice->SetStreamSource( 0, m_pVertexBuffer, 0, sizeof(Vertex) );
-	//	m_pDevice->SetFVF(Vertex::FVF);
-	//	m_pDevice->SetIndices( m_pIndexBuffer );		
+		m_pDevice->SetStreamSource( 0, m_pVertexBuffer, 0, sizeof(Vertex) );
+		m_pDevice->SetFVF(Vertex::FVF);
+		m_pDevice->SetIndices( m_pIndexBuffer );		
 
 	// Draw cube:
 
-	//	m_pDevice->DrawIndexedPrimitive( D3DPT_TRIANGLELIST, 0, 0u, 8u, 0u, 12u );
+		m_pDevice->DrawIndexedPrimitive( D3DPT_TRIANGLELIST, 0, 0u, 8u, 0u, 12u );
 
 		// TEST
-		ID3DXMesh* mesh = nullptr;
-		D3DXCreateTorus( m_pDevice, 1.0f, 2.0f, 30u, 30u, &mesh, nullptr );
-		mesh->DrawSubset(0);
+	//	ID3DXMesh* mesh = nullptr;
+	//	D3DXCreateTorus( m_pDevice, 1.0f, 2.0f, 30u, 30u, &mesh, nullptr );
+	//	mesh->DrawSubset(0);
 		
 		m_pDevice->EndScene();
 		m_pDevice->Present( nullptr, nullptr, nullptr, nullptr );

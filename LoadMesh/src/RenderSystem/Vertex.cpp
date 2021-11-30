@@ -21,5 +21,5 @@ namespace dx9
 		this->color = color;
 	}
 
-	const DWORD Vertex::FVF = D3DFVF_XYZ;
+	const DWORD Vertex::FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE;
 }

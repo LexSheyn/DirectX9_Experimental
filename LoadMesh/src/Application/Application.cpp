@@ -48,7 +48,8 @@ namespace dx9
 
 	void Application::DoFrame()
 	{
-		m_Window.GetRenderSystem().Render( mesh, 0.01f );
+	//	m_Window.GetRenderSystem().Render( mesh, 0.01f );
+		m_Window.GetRenderSystem().Render( 0.01f );
 	}
 
 }
