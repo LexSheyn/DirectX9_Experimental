@@ -25,6 +25,12 @@ namespace dx9
 		void CreateIndexBuffer();
 
 		// TEST
+		void CreateMaterial();
+
+		// TEST
+		void CreateLight( const D3DXVECTOR3& position, const D3DXCOLOR& color );
+
+		// TEST
 		void SetView();
 
 		// TEST
@@ -54,6 +60,10 @@ namespace dx9
 		IDirect3DVertexBuffer9* m_pVertexBuffer = nullptr;
 
 		IDirect3DIndexBuffer9* m_pIndexBuffer   = nullptr;
+
+		D3DMATERIAL9 m_Material = {};
+
+		D3DLIGHT9 m_Light = {};
 
 
 		IDirect3D9* m_pDirect3D  = nullptr;

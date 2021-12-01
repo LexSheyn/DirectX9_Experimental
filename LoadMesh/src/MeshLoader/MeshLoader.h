@@ -18,11 +18,15 @@ namespace dx9
 
 		bool8 Load( const char* filePath );
 
+		void GetMeshes( std::vector<ID3DXMesh*>& meshes );
+
 	private:
 
 	// Variables:
 
 		HWND m_hWnd = nullptr;
+
+		std::vector<ID3DXMesh*> m_Meshes;
 	};
 }
 

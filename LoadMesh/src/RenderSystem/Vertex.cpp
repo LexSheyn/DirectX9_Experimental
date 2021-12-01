@@ -3,23 +3,34 @@
 
 namespace dx9
 {
-// Constructor:
-
-	Vertex::Vertex(float32 x, float32 y, float32 z)
+// Constructor:	
+	
+	Vertex::Vertex(D3DXVECTOR3 position, D3DXVECTOR3 normal, D3DCOLOR color)
 	{
-		this->x = x;
-		this->y = y;
-		this->z = z;
+		this->position = position;
+
+		this->normal   = normal;
+
+		this->color    = color;
 	}
 
-	Vertex::Vertex(float32 x, float32 y, float32 z, D3DCOLOR color)
+	Vertex::Vertex(float32 x , float32 y , float32 z, 
+		           float32 nx, float32 ny, float32 nz, 
+		           D3DCOLOR color)
 	{
-		this->x = x;
-		this->y = y;
-		this->z = z;
+		position.x = x;
+		position.y = y;
+		position.z = z;
+
+		normal.x = x;
+		normal.y = y;
+		normal.z = z;
 
 		this->color = color;
 	}
 
-	const DWORD Vertex::FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE;
+
+// Static Variables:
+
+	const DWORD Vertex::FVF = D3DFVF_XYZ | D3DFVF_NORMAL;
 }

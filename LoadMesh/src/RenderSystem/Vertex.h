@@ -12,14 +12,15 @@ namespace dx9
 	// Constructor:
 
 		Vertex() = default;
-		Vertex( float32 x, float32 y, float32 z );
-		Vertex( float32 x, float32 y, float32 z, D3DCOLOR color );
+		Vertex( D3DXVECTOR3 position, D3DXVECTOR3 normal, D3DCOLOR color );
+		Vertex( float32 x , float32 y , float32 z,
+			    float32 nx, float32 ny, float32 nz, 
+			    D3DCOLOR color);
 
 	// Variables:
 
-		float32 x = 0.0f;
-		float32 y = 0.0f;
-		float32 z = 0.0f;
+		D3DXVECTOR3 position;
+		D3DXVECTOR3 normal;
 
 		D3DCOLOR color = Color::White;
 

@@ -11,6 +11,7 @@ namespace dx9
 
 		static const D3DCOLOR White  = D3DCOLOR_ARGB(255, 255, 255, 255);
 		static const D3DCOLOR Black  = D3DCOLOR_ARGB(255,   0,   0,   0);
+		static const D3DCOLOR Grey   = D3DCOLOR_ARGB(255, 100, 100, 100);
 		static const D3DCOLOR Red    = D3DCOLOR_ARGB(255, 255,   0,   0);
 		static const D3DCOLOR Green  = D3DCOLOR_ARGB(255,   0, 255,   0);
 		static const D3DCOLOR Blue   = D3DCOLOR_ARGB(255,   0,   0, 255);

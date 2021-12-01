@@ -37,20 +37,39 @@ namespace dx9
 
 		if ( !scene )
 		{
-			MessageBoxA( m_hWnd, aiGetErrorString(), "Assimg Error", 0u );
+			MessageBoxA( m_hWnd, aiGetErrorString(), "Assimp Error", 0u );
 
 			return false;
 		}
 
 	// Now we can access the file's contents:
 
-		// Get vertices, indices, materials... put them into the buffers...
+		if ( scene->HasMeshes() )
+		{
+			MessageBoxA( m_hWnd, "Meshes loaded!", "INFO::MeshLoader::Load", 0u );
+			
+			for ( uint32 i = 0u; i < scene->mNumMeshes; i++ )
+			{
+				MessageBoxA( m_hWnd, "Mesh detected!", "INFO::MeshLoader::Load", 0u );
+			}
+		}
+
+		for ( uint32 i = 0; i < scene->mNumMeshes; i++ )
+		{
+		//	ID3DXMesh* mesh->
+
+		//	scene->mMeshes[i]
+		}
 
 	// We're done. Release all resources associated with this import:
 
 		aiReleaseImport( scene );
 
 		return true;
+	}
+
+	void MeshLoader::GetMeshes(std::vector<ID3DXMesh*>& meshes)
+	{
 	}
 
 }

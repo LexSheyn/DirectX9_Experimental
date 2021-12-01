@@ -73,13 +73,13 @@ namespace dx9
 	{
 		m_phWnd = nullptr;
 
-		m_pDirect3D->Release();
+		dx9::Release( m_pDirect3D );
 
-		m_pDevice->Release();
+		dx9::Release( m_pDevice );
 
-		m_pVertexBuffer->Release();
+		dx9::Release( m_pVertexBuffer );
 
-		m_pIndexBuffer->Release();
+		dx9::Release( m_pIndexBuffer );
 	}
 
 
@@ -87,11 +87,13 @@ namespace dx9
 
 	void RenderSystem::CreateVertexBuffer()
 	{
-	//
-	// Create vertex buffer:
-	//
+	// Create Vertices:
 
-		m_pDevice->CreateVertexBuffer( 8u * sizeof(Vertex),
+		Vertex vertices[12];
+
+	// Create vertex buffer:
+
+		m_pDevice->CreateVertexBuffer( std::size(vertices) * sizeof(Vertex),
 			                           D3DUSAGE_WRITEONLY,
 			                           Vertex::FVF,
 			                           D3DPOOL_MANAGED,
@@ -103,17 +105,26 @@ namespace dx9
 		m_pVertexBuffer->Lock( 0u, 0u, (void**)&pVertices, 0 );
 
 	// Vertices of a unit cube:
+				
+		// Front face
+		vertices[0]  = Vertex( -1.0f, 0.0f, -1.0f,    0.0f, 0.707f, -0.707f, Color::White );
+		vertices[1]  = Vertex(  0.0f, 1.0f,  0.0f,    0.0f, 0.707f, -0.707f, Color::White );
+		vertices[2]  = Vertex(  1.0f, 0.0f, -1.0f,    0.0f, 0.707f, -0.707f, Color::White );
 
-		Vertex vertices[8];
+		// Left face
+		vertices[3]  = Vertex( -1.0f, 0.0f,  1.0f, -0.707f, 0.707f,    0.0f, Color::White );
+		vertices[4]  = Vertex(  0.0f, 1.0f,  0.0f, -0.707f, 0.707f,    0.0f, Color::White );
+		vertices[5]  = Vertex( -1.0f, 0.0f, -1.0f, -0.707f, 0.707f,    0.0f, Color::White );
 
-		vertices[0] = Vertex( -1.0f, -1.0f, -1.0f, Color::Red );
-		vertices[1] = Vertex( -1.0f,  1.0f, -1.0f, Color::Red );
-		vertices[2] = Vertex(  1.0f,  1.0f, -1.0f, Color::Green );
-		vertices[3] = Vertex(  1.0f, -1.0f, -1.0f, Color::Green );
-		vertices[4] = Vertex( -1.0f, -1.0f,  1.0f, Color::Blue );
-		vertices[5] = Vertex( -1.0f,  1.0f,  1.0f, Color::Blue );
-		vertices[6] = Vertex(  1.0f,  1.0f,  1.0f, Color::White );
-		vertices[7] = Vertex(  1.0f, -1.0f,  1.0f, Color::White );
+		// Right face
+		vertices[6]  = Vertex(  1.0f, 0.0f, -1.0f,  0.707f, 0.707f,    0.0f, Color::White );
+		vertices[7]  = Vertex(  0.0f, 1.0f,  0.0f,  0.707f, 0.707f,    0.0f, Color::White );
+		vertices[8]  = Vertex(  1.0f, 0.0f,  1.0f,  0.707f, 0.707f,    0.0f, Color::White );
+
+		// Back face
+		vertices[9]  = Vertex(  1.0f, 0.0f, 1.0f,     0.0f,  0.707f,  0.707f, Color::White );
+		vertices[10] = Vertex(  0.0f, 1.0f, 0.0f,     0.0f,  0.707f,  0.707f, Color::White );
+		vertices[11] = Vertex( -1.0f, 0.0f, 1.0f,     0.0f,  0.707f,  0.707f, Color::White );
 
 		memcpy_s( pVertices, sizeof(vertices), vertices, sizeof(vertices) );
 
@@ -166,14 +177,60 @@ namespace dx9
 		m_pIndexBuffer->Unlock();
 	}
 
+	void RenderSystem::CreateMaterial()
+	{
+		m_Material.Ambient  = D3DXCOLOR( 1.0f, 1.0f, 1.0f, 1.0f );
+		m_Material.Diffuse  = D3DXCOLOR( 1.0f, 1.0f, 1.0f, 1.0f );
+		m_Material.Specular = D3DXCOLOR( 1.0f, 1.0f, 1.0f, 1.0f );
+		m_Material.Emissive = D3DXCOLOR( 0.0f, 0.0f, 0.0f, 1.0f );
+		m_Material.Power    = 5.0f;
+
+		m_pDevice->SetMaterial( &m_Material );
+	}
+
+	void RenderSystem::CreateLight( const D3DXVECTOR3& position,  const D3DXCOLOR& color )
+	{
+		::ZeroMemory( &m_Light, sizeof(m_Light) );
+
+		m_Light.Type         = D3DLIGHT_POINT;
+		m_Light.Ambient      = color * 0.6f;
+		m_Light.Diffuse      = color;
+		m_Light.Specular     = color * 0.6f;
+		m_Light.Position     = position;
+		m_Light.Range        = 2.f;
+		m_Light.Falloff      = 1.0f;
+		m_Light.Attenuation0 = 1.0f;
+		m_Light.Attenuation1 = 0.0f;
+		m_Light.Attenuation2 = 0.0f;
+		m_Light.Theta        = 0.4f;
+		m_Light.Phi          = 0.9f;
+
+		m_pDevice->SetLight( 0u, &m_Light);
+		m_pDevice->LightEnable( 0u, TRUE );
+	}
+
 	void RenderSystem::SetView()
 	{
+	// Set render state:
+
+		// Lights on.
+		m_pDevice->SetRenderState( D3DRS_LIGHTING        , true );
+		m_pDevice->SetRenderState( D3DRS_SPECULARENABLE  , true );		
+		m_pDevice->SetRenderState( D3DRS_NORMALIZENORMALS, true );
+
+	//	// Switch to wireframe mode.
+	//	m_pDevice->SetRenderState( D3DRS_FILLMODE, D3DFILL_WIREFRAME );
+	//
+	//	// Turn on Gouraud interpolater pixel shading.
+	//	m_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+	//	m_pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
+
 	// Position and aim the camera.
 
 		D3DXVECTOR3 position( 0.0f, 0.0f, -5.0f );
 		D3DXVECTOR3 target( 0.0f, 0.0f, 0.0f );
 		D3DXVECTOR3 up( 0.0f, 1.0f, 0.0f );
-		D3DXMATRIX view;
+		D3DXMATRIX view = {};
 
 		D3DXMatrixLookAtLH(&view, &position, &target, &up);
 
@@ -181,25 +238,15 @@ namespace dx9
 
 	// Set the projection matrix.
 
-		D3DXMATRIX proj;
+		D3DXMATRIX proj = {};
+
 		D3DXMatrixPerspectiveFovLH( &proj,
 			                        D3DX_PI * 0.5f, // 90 - degree
-			                        21.0f / 9.0f,
+			                        static_cast<float32>(m_Width) / static_cast<float32>(m_Height),
 			                        1.0f,
 			                        1000.0f);
 
-		m_pDevice->SetTransform(D3DTS_PROJECTION, &proj);
-
-	// Switch to wireframe mode.
-
-	//	m_pDevice->SetRenderState( D3DRS_FILLMODE, D3DFILL_WIREFRAME );
-
-	// Turn on Gouraud interpolater pixel shading:
-
-		m_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-		m_pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
-	//	m_pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_FLAT);
-
+		m_pDevice->SetTransform(D3DTS_PROJECTION, &proj);		
 	}
 
 	void RenderSystem::Render( const float& dt )
@@ -210,7 +257,7 @@ namespace dx9
 
 	// rotate 45 degrees on x-axis:
 
-		D3DXMatrixRotationX( &Rx, 3.14f / 4.0f);
+		D3DXMatrixRotationX( &Rx, 0.3f );
 
 	// incremement y-rotation angle each frame:
 
@@ -235,21 +282,17 @@ namespace dx9
 
 	// Draw the scene:
 
-		m_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x66666666, 1.0f, 0 );
+		m_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, Color::Black, 1.0f, 0 );
 		m_pDevice->BeginScene();
 
 		m_pDevice->SetStreamSource( 0, m_pVertexBuffer, 0, sizeof(Vertex) );
 		m_pDevice->SetFVF(Vertex::FVF);
-		m_pDevice->SetIndices( m_pIndexBuffer );		
+	//	m_pDevice->SetIndices( m_pIndexBuffer );
 
 	// Draw cube:
 
-		m_pDevice->DrawIndexedPrimitive( D3DPT_TRIANGLELIST, 0, 0u, 8u, 0u, 12u );
-
-		// TEST
-	//	ID3DXMesh* mesh = nullptr;
-	//	D3DXCreateTorus( m_pDevice, 1.0f, 2.0f, 30u, 30u, &mesh, nullptr );
-	//	mesh->DrawSubset(0);
+	//	m_pDevice->DrawIndexedPrimitive( D3DPT_TRIANGLELIST, 0, 0u, 12u, 0u, 12u );
+		m_pDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 4u );
 		
 		m_pDevice->EndScene();
 		m_pDevice->Present( nullptr, nullptr, nullptr, nullptr );

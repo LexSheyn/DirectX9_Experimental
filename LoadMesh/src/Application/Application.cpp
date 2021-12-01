@@ -7,25 +7,29 @@
 		: m_Window ( 1050, 450, "DirectX9_Test_Window" )
 	{
 		m_Window.GetRenderSystem().CreateVertexBuffer();
-		m_Window.GetRenderSystem().CreateIndexBuffer();
-		m_Window.GetRenderSystem().SetView();
+	//	m_Window.GetRenderSystem().CreateIndexBuffer();
+		m_Window.GetRenderSystem().CreateMaterial();
+		m_Window.GetRenderSystem().CreateLight( D3DXVECTOR3( 1.0f, 0.0f, 0.25f ), D3DXCOLOR( 1.0f, 1.0f, 1.0f, 1.0f ) );
+		m_Window.GetRenderSystem().SetView();		
 
 		D3DXCreateTorus( &m_Window.GetRenderSystem().GetDevice(), 1.0f, 2.0f, 30u, 30u, &mesh, nullptr );
 
-		dx9::MeshLoader mesh_loader( m_Window.GetHandle() );
+	// Loading Mesh:
 
-		bool8 result = false;
-
-		result = mesh_loader.Load( "C:/Users/Admin/Desktop/03_zamok.obj" );
-
-		if ( !result )
-		{
-			MessageBoxA( m_Window.GetHandle(), "MeshLoader::Load::Failed!", "Window Error", 0u );
-		}
-		else
-		{
-			MessageBoxA(m_Window.GetHandle(), "MeshLoader::Load::Successfull! Keep going!", "Window Error", 0u);
-		}
+	//	dx9::MeshLoader mesh_loader( m_Window.GetHandle() );
+	//
+	//	bool8 result = false;
+	//
+	//	result = mesh_loader.Load( "C:/TemporaryStorage/ttt2/tttt.obj" );
+	//
+	//	if ( !result )
+	//	{
+	//		MessageBoxA( m_Window.GetHandle(), "MeshLoader::Load::Failed!", "Window Error", 0u );
+	//	}
+	//	else
+	//	{
+	//		MessageBoxA(m_Window.GetHandle(), "MeshLoader::Load::Successfull! Keep going!", "Window Error", 0u);
+	//	}
 	}
 
 	Application::~Application()
