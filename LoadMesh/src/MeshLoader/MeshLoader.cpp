@@ -54,11 +54,11 @@ namespace dx9
 			}
 		}
 
+		m_Meshes.resize( scene->mNumMeshes );
+
 		for ( uint32 i = 0; i < scene->mNumMeshes; i++ )
 		{
-		//	ID3DXMesh* mesh->
-
-		//	scene->mMeshes[i]
+			m_Meshes[i] = *scene->mMeshes[i];
 		}
 
 	// We're done. Release all resources associated with this import:

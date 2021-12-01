@@ -26,7 +26,7 @@ namespace dx9
 
 		HWND m_hWnd = nullptr;
 
-		std::vector<ID3DXMesh*> m_Meshes;
+		std::vector<aiMesh> m_Meshes;
 	};
 }
 
