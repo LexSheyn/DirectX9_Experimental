@@ -11,7 +11,7 @@
 	//	m_Window.GetRenderSystem().CreateVertexBuffer();
 	//	m_Window.GetRenderSystem().CreateIndexBuffer();
 	//	m_Window.GetRenderSystem().CreateMaterial();
-		m_Window.GetRenderSystem().CreateLight( D3DXVECTOR3( 0.0f, 0.3f, 0.25f ), D3DXCOLOR( 1.0f, 1.0f, 1.0f, 1.0f ) );
+	//	m_Window.GetRenderSystem().CreateLight( D3DXVECTOR3( 0.0f, 0.3f, 0.25f ), D3DXCOLOR( 1.0f, 1.0f, 1.0f, 1.0f ) );
 	//	m_Window.GetRenderSystem().CreateTexture( "C:/TemporaryStorage/Geass_256x256.png" );
 		m_Window.GetRenderSystem().SetView();
 

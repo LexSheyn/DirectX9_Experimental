@@ -3,7 +3,7 @@
 
 namespace dx9
 {
-	D3DVERTEXELEMENT9 vertElement[] =
+	D3DVERTEXELEMENT9 VertElement[] =
 	{
 		{0, 0 , D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
 		{0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL  , 0},
@@ -103,7 +103,7 @@ namespace dx9
 	{
 		m_pMesh = nullptr;
 		
-		HRESULT result = D3DXCreateMesh( 12, 24, D3DXMESH_MANAGED, vertElement, m_pDevice, &m_pMesh );
+		HRESULT result = D3DXCreateMeshFVF( 12, 24, D3DXMESH_MANAGED, VertexMesh::FVF, m_pDevice, &m_pMesh );
 
 		if ( FAILED(result) )
 		{
@@ -114,45 +114,45 @@ namespace dx9
 
 	// Fill Vertices:
 
-		Vertex* vertices = nullptr;
+		VertexMesh* vertices = nullptr;
 
 		m_pMesh->LockVertexBuffer( 0u, (void**)&vertices );
 
 		// fill in the front face vertex data
-		vertices[0]  = Vertex( -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f, Color::White );
-		vertices[1]  = Vertex( -1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f, Color::White );
-		vertices[2]  = Vertex(  1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f, Color::White );
-		vertices[3]  = Vertex(  1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f, Color::White );
+		vertices[0]  = VertexMesh( -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f );
+		vertices[1]  = VertexMesh( -1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f );
+		vertices[2]  = VertexMesh(  1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f );
+		vertices[3]  = VertexMesh(  1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f );
 					    
 		// fill in the  back face vertex data
-		vertices[4]  = Vertex( -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f, Color::White );
-		vertices[5]  = Vertex(  1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f, Color::White );
-		vertices[6]  = Vertex(  1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f, Color::White );
-		vertices[7]  = Vertex( -1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f, Color::White );
+		vertices[4]  = VertexMesh( -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f );
+		vertices[5]  = VertexMesh(  1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f );
+		vertices[6]  = VertexMesh(  1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f );
+		vertices[7]  = VertexMesh( -1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f );
 					    					 
 		// fill in the  top face vertex data 
-		vertices[8]  = Vertex( -1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f, Color::White );
-		vertices[9]  = Vertex( -1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f, Color::White );
-		vertices[10] = Vertex(  1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f, Color::White );
-		vertices[11] = Vertex(  1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f, Color::White );
+		vertices[8]  = VertexMesh( -1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f );
+		vertices[9]  = VertexMesh( -1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f );
+		vertices[10] = VertexMesh(  1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f );
+		vertices[11] = VertexMesh(  1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f );
 					    
 		// fill in the  bottom face vertex data
-		vertices[12] = Vertex( -1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f, Color::White );
-		vertices[13] = Vertex(  1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f, Color::White );
-		vertices[14] = Vertex(  1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f, Color::White );
-		vertices[15] = Vertex( -1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f, Color::White );
+		vertices[12] = VertexMesh( -1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f );
+		vertices[13] = VertexMesh(  1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f );
+		vertices[14] = VertexMesh(  1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f );
+		vertices[15] = VertexMesh( -1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f );
 					    
 		// fill in the  left face vertex data
-		vertices[16] = Vertex( -1.0f, -1.0f,  1.0f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f, Color::White );
-		vertices[17] = Vertex( -1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f, Color::White );
-		vertices[18] = Vertex( -1.0f,  1.0f, -1.0f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f, Color::White );
-		vertices[19] = Vertex( -1.0f, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f, Color::White );
+		vertices[16] = VertexMesh( -1.0f, -1.0f,  1.0f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f );
+		vertices[17] = VertexMesh( -1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f );
+		vertices[18] = VertexMesh( -1.0f,  1.0f, -1.0f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f );
+		vertices[19] = VertexMesh( -1.0f, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f );
 					    
 		// fill in the  right face vertex data
-		vertices[20] = Vertex(  1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f, Color::White );
-		vertices[21] = Vertex(  1.0f,  1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f, Color::White );
-		vertices[22] = Vertex(  1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f, Color::White );
-		vertices[23] = Vertex(  1.0f, -1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f, Color::White );
+		vertices[20] = VertexMesh(  1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f );
+		vertices[21] = VertexMesh(  1.0f,  1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f );
+		vertices[22] = VertexMesh(  1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f );
+		vertices[23] = VertexMesh(  1.0f, -1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f );
 
 		m_pMesh->UnlockVertexBuffer();
 
@@ -410,9 +410,9 @@ namespace dx9
 	// Set render state:
 
 		// Lights on.
-		m_pDevice->SetRenderState( D3DRS_LIGHTING        , true );
-		m_pDevice->SetRenderState( D3DRS_SPECULARENABLE  , true );		
-		m_pDevice->SetRenderState( D3DRS_NORMALIZENORMALS, true );
+		m_pDevice->SetRenderState( D3DRS_LIGHTING        , false );
+	//	m_pDevice->SetRenderState( D3DRS_SPECULARENABLE  , true );
+	//	m_pDevice->SetRenderState( D3DRS_NORMALIZENORMALS, true );
 
 	//	// Switch to wireframe mode.
 	//	m_pDevice->SetRenderState( D3DRS_FILLMODE, D3DFILL_WIREFRAME );

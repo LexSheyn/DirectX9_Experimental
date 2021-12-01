@@ -3,6 +3,7 @@
 
 #include "D3DUtility.h"
 #include "Vertex.h"
+#include "VertexMesh.h"
 
 namespace dx9
 {
