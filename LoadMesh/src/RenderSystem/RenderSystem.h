@@ -21,6 +21,7 @@ namespace dx9
 
 		// CREATE MESH BOX TEST
 		ID3DXMesh* CreateMesh();
+		ID3DXMesh* CreateMesh( std::vector<Vertex>& vertices, std::vector<DWORD>& indices );
 
 		// TEST
 		void CreateVertexBuffer();
@@ -82,8 +83,6 @@ namespace dx9
 		IDirect3DTexture9* m_pTexture;
 
 	// Temporary Mesh:
-
-		ID3DXMesh* m_pMesh;
 
 		IDirect3DTexture9* m_pMeshTextures[3] = { nullptr, nullptr, nullptr };
 

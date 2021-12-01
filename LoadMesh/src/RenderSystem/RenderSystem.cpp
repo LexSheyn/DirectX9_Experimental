@@ -88,8 +88,6 @@ namespace dx9
 
 		dx9::Release( m_pIndexBuffer );
 
-		dx9::Release( m_pMesh );
-
 		for ( auto* texture : m_pMeshTextures )
 		{
 			dx9::Release( texture );
@@ -101,9 +99,9 @@ namespace dx9
 
 	ID3DXMesh* RenderSystem::CreateMesh()
 	{
-		m_pMesh = nullptr;
+		ID3DXMesh* mesh = nullptr;
 		
-		HRESULT result = D3DXCreateMeshFVF( 12, 24, D3DXMESH_MANAGED, VertexMesh::FVF, m_pDevice, &m_pMesh );
+		HRESULT result = D3DXCreateMeshFVF( 12, 24, D3DXMESH_MANAGED, VertexMesh::FVF, m_pDevice, &mesh);
 
 		if ( FAILED(result) )
 		{
@@ -116,7 +114,7 @@ namespace dx9
 
 		VertexMesh* vertices = nullptr;
 
-		m_pMesh->LockVertexBuffer( 0u, (void**)&vertices );
+		mesh->LockVertexBuffer( 0u, (void**)&vertices );
 
 		// fill in the front face vertex data
 		vertices[0]  = VertexMesh( -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f );
@@ -154,13 +152,13 @@ namespace dx9
 		vertices[22] = VertexMesh(  1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f );
 		vertices[23] = VertexMesh(  1.0f, -1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f );
 
-		m_pMesh->UnlockVertexBuffer();
+		mesh->UnlockVertexBuffer();
 
 	// Fill Indices:
 
 		WORD* indices = nullptr;
 
-		m_pMesh->LockIndexBuffer( 0, (void**)&indices );
+		mesh->LockIndexBuffer( 0, (void**)&indices );
 
 		// front side
 		indices[0]  = 0; indices[1]  = 1; indices[2]  = 2;
@@ -186,13 +184,13 @@ namespace dx9
 		indices[30] = 20; indices[31] = 21; indices[32] = 22;
 		indices[33] = 20; indices[34] = 22; indices[35] = 23;
 
-		m_pMesh->UnlockIndexBuffer();
+		mesh->UnlockIndexBuffer();
 
 	// FIll Attribute buffer:
 
 		DWORD* attribute_buffer = nullptr;
 
-		m_pMesh->LockAttributeBuffer( 0, &attribute_buffer );
+		mesh->LockAttributeBuffer( 0, &attribute_buffer );
 
 		// Group a:
 		for ( uint32 a = 0u; a < 4u; a++)
@@ -212,15 +210,15 @@ namespace dx9
 			attribute_buffer[c] = 2u;
 		}
 
-		m_pMesh->UnlockAttributeBuffer();
+		mesh->UnlockAttributeBuffer();
 
 	// Optimize Mesh to generate an attrubute table:
 
-		std::vector<DWORD> adjacency_buffer( m_pMesh->GetNumFaces() * 3u );
+		std::vector<DWORD> adjacency_buffer(mesh->GetNumFaces() * 3u );
 
-		m_pMesh->GenerateAdjacency( 0.0f, &adjacency_buffer[0] );
+		mesh->GenerateAdjacency( 0.0f, &adjacency_buffer[0] );
 
-		result = m_pMesh->OptimizeInplace( D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_COMPACT | D3DXMESHOPT_VERTEXCACHE, &adjacency_buffer[0], nullptr, nullptr, nullptr );
+		result = mesh->OptimizeInplace( D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_COMPACT | D3DXMESHOPT_VERTEXCACHE, &adjacency_buffer[0], nullptr, nullptr, nullptr );
 
 		if (FAILED(result))
 		{
@@ -233,11 +231,11 @@ namespace dx9
 
 		m_OutFile.open( "C:/TemporaryStorage/MeshDump.txt" );
 
-		this->DumpVertices( m_OutFile, m_pMesh );
-		this->DumpIndices( m_OutFile, m_pMesh );
-		this->DumpAttributeBuffer( m_OutFile, m_pMesh );
-		this->DumpAdjacencyBuffer( m_OutFile, m_pMesh );
-		this->DumpAttributeTable( m_OutFile, m_pMesh );
+		this->DumpVertices( m_OutFile, mesh);
+		this->DumpIndices( m_OutFile, mesh);
+		this->DumpAttributeBuffer( m_OutFile, mesh);
+		this->DumpAdjacencyBuffer( m_OutFile, mesh);
+		this->DumpAttributeTable( m_OutFile, mesh);
 
 		m_OutFile.close();
 
@@ -251,7 +249,7 @@ namespace dx9
 		m_pDevice->SetSamplerState( 0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR );
 		m_pDevice->SetSamplerState( 0, D3DSAMP_MIPFILTER, D3DTEXF_POINT  );
 
-		return m_pMesh;
+		return mesh;
 	}
 
 	void RenderSystem::CreateVertexBuffer()
