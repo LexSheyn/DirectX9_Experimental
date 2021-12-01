@@ -6,13 +6,16 @@
 	Application::Application()
 		: m_Window ( 1050, 450, "DirectX9_Test_Window" )
 	{
-		m_Window.GetRenderSystem().CreateVertexBuffer();
-	//	m_Window.GetRenderSystem().CreateIndexBuffer();
-		m_Window.GetRenderSystem().CreateMaterial();
-		m_Window.GetRenderSystem().CreateLight( D3DXVECTOR3( 1.0f, 0.0f, 0.25f ), D3DXCOLOR( 1.0f, 1.0f, 1.0f, 1.0f ) );
-		m_Window.GetRenderSystem().SetView();		
+		mesh = m_Window.GetRenderSystem().CreateMesh();
 
-		D3DXCreateTorus( &m_Window.GetRenderSystem().GetDevice(), 1.0f, 2.0f, 30u, 30u, &mesh, nullptr );
+	//	m_Window.GetRenderSystem().CreateVertexBuffer();
+	//	m_Window.GetRenderSystem().CreateIndexBuffer();
+	//	m_Window.GetRenderSystem().CreateMaterial();
+		m_Window.GetRenderSystem().CreateLight( D3DXVECTOR3( 0.0f, 0.3f, 0.25f ), D3DXCOLOR( 1.0f, 1.0f, 1.0f, 1.0f ) );
+	//	m_Window.GetRenderSystem().CreateTexture( "C:/TemporaryStorage/Geass_256x256.png" );
+		m_Window.GetRenderSystem().SetView();
+
+	//	D3DXCreateTorus( &m_Window.GetRenderSystem().GetDevice(), 1.0f, 2.0f, 30u, 30u, &mesh, nullptr );
 
 	// Loading Mesh:
 
@@ -65,6 +68,6 @@
 
 	void Application::DoFrame()
 	{
-	//	m_Window.GetRenderSystem().Render( mesh, 0.01f );
-		m_Window.GetRenderSystem().Render( 0.01f );
+		m_Window.GetRenderSystem().Render( mesh, 0.01f );
+	//	m_Window.GetRenderSystem().Render( 0.01f );
 	}

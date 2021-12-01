@@ -18,6 +18,9 @@ namespace dx9
 
 	// Functions:
 
+		// CREATE MESH BOX TEST
+		ID3DXMesh* CreateMesh();
+
 		// TEST
 		void CreateVertexBuffer();
 
@@ -31,7 +34,17 @@ namespace dx9
 		void CreateLight( const D3DXVECTOR3& position, const D3DXCOLOR& color );
 
 		// TEST
+		void CreateTexture( const char* filePath );
+
+		// TEST
 		void SetView();
+
+		// TEST DUMP
+		void DumpVertices( std::ofstream& outFile, ID3DXMesh* mesh );
+		void DumpIndices( std::ofstream& outFile, ID3DXMesh* mesh );
+		void DumpAttributeBuffer( std::ofstream& outFile, ID3DXMesh* mesh );
+		void DumpAdjacencyBuffer( std::ofstream& outFile, ID3DXMesh* mesh );
+		void DumpAttributeTable( std::ofstream& outFile, ID3DXMesh* mesh );
 
 		// TEST
 		void Render( const float& dt );	
@@ -64,6 +77,16 @@ namespace dx9
 		D3DMATERIAL9 m_Material = {};
 
 		D3DLIGHT9 m_Light = {};
+
+		IDirect3DTexture9* m_pTexture;
+
+	// Temporary Mesh:
+
+		ID3DXMesh* m_pMesh;
+
+		IDirect3DTexture9* m_pMeshTextures[3] = { nullptr, nullptr, nullptr };
+
+		std::ofstream m_OutFile;
 
 
 		IDirect3D9* m_pDirect3D  = nullptr;

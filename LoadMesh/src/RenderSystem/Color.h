@@ -21,6 +21,7 @@ namespace dx9
 		static const D3DCOLOR Orange = D3DCOLOR_ARGB(255, 255, 155,   0);
 		static const D3DCOLOR Pink   = D3DCOLOR_ARGB(255, 255, 100, 255);
 
+		static const D3DCOLOR DarkGrey    = D3DCOLOR_ARGB(255,  50,  50,  50);
 		static const D3DCOLOR LightBlue   = D3DCOLOR_ARGB(255,   0, 155, 255);
 		static const D3DCOLOR Transparent = D3DCOLOR_ARGB(  0,   0,   0,   0);
 	};

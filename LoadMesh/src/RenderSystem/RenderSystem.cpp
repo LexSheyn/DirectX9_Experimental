@@ -3,6 +3,13 @@
 
 namespace dx9
 {
+	D3DVERTEXELEMENT9 vertElement[] =
+	{
+		{0, 0 , D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
+		{0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL  , 0},
+		{0, 20, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
+	};
+
 // Constructors and Destructor:
 
 	RenderSystem::RenderSystem( HWND hWnd, int32 width, int32 height )
@@ -80,16 +87,178 @@ namespace dx9
 		dx9::Release( m_pVertexBuffer );
 
 		dx9::Release( m_pIndexBuffer );
+
+		dx9::Release( m_pMesh );
+
+		for ( auto* texture : m_pMeshTextures )
+		{
+			dx9::Release( texture );
+		}
 	}
 
 
 // Functions:
 
+	ID3DXMesh* RenderSystem::CreateMesh()
+	{
+		m_pMesh = nullptr;
+		
+		HRESULT result = D3DXCreateMesh( 12, 24, D3DXMESH_MANAGED, vertElement, m_pDevice, &m_pMesh );
+
+		if ( FAILED(result) )
+		{
+			MessageBoxA( m_phWnd, "Failed to create mesh with D3DXCreateMeshFVF(...)", "ERROR:RendeSystem::CreateMesh", 0u );
+		
+			return nullptr;
+		}
+
+	// Fill Vertices:
+
+		Vertex* vertices = nullptr;
+
+		m_pMesh->LockVertexBuffer( 0u, (void**)&vertices );
+
+		// fill in the front face vertex data
+		vertices[0]  = Vertex( -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f, Color::White );
+		vertices[1]  = Vertex( -1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f, Color::White );
+		vertices[2]  = Vertex(  1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f, Color::White );
+		vertices[3]  = Vertex(  1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f, Color::White );
+					    
+		// fill in the  back face vertex data
+		vertices[4]  = Vertex( -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f, Color::White );
+		vertices[5]  = Vertex(  1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f, Color::White );
+		vertices[6]  = Vertex(  1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f, Color::White );
+		vertices[7]  = Vertex( -1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f, Color::White );
+					    					 
+		// fill in the  top face vertex data 
+		vertices[8]  = Vertex( -1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f, Color::White );
+		vertices[9]  = Vertex( -1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f, Color::White );
+		vertices[10] = Vertex(  1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f, Color::White );
+		vertices[11] = Vertex(  1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f, Color::White );
+					    
+		// fill in the  bottom face vertex data
+		vertices[12] = Vertex( -1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f, Color::White );
+		vertices[13] = Vertex(  1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f, Color::White );
+		vertices[14] = Vertex(  1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f, Color::White );
+		vertices[15] = Vertex( -1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f, Color::White );
+					    
+		// fill in the  left face vertex data
+		vertices[16] = Vertex( -1.0f, -1.0f,  1.0f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f, Color::White );
+		vertices[17] = Vertex( -1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f, Color::White );
+		vertices[18] = Vertex( -1.0f,  1.0f, -1.0f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f, Color::White );
+		vertices[19] = Vertex( -1.0f, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f, Color::White );
+					    
+		// fill in the  right face vertex data
+		vertices[20] = Vertex(  1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f, Color::White );
+		vertices[21] = Vertex(  1.0f,  1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f, Color::White );
+		vertices[22] = Vertex(  1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f, Color::White );
+		vertices[23] = Vertex(  1.0f, -1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f, Color::White );
+
+		m_pMesh->UnlockVertexBuffer();
+
+	// Fill Indices:
+
+		WORD* indices = nullptr;
+
+		m_pMesh->LockIndexBuffer( 0, (void**)&indices );
+
+		// front side
+		indices[0]  = 0; indices[1]  = 1; indices[2]  = 2;
+		indices[3]  = 0; indices[4]  = 2; indices[5]  = 3;
+
+		// back side
+		indices[6]  = 4; indices[7]  = 5; indices[8]  = 6;
+		indices[9]  = 4; indices[10] = 6; indices[11] = 7;
+
+		// left side
+		indices[12] = 8; indices[13] = 9; indices[14] = 10;
+		indices[15] = 8; indices[16] = 10; indices[17] = 11;
+
+		// right side
+		indices[18] = 12; indices[19] = 13; indices[20] = 14;
+		indices[21] = 12; indices[22] = 14; indices[23] = 15;
+
+		// top
+		indices[24] = 16; indices[25] = 17; indices[26] = 18;
+		indices[27] = 16; indices[28] = 18; indices[29] = 19;
+
+		// bottom
+		indices[30] = 20; indices[31] = 21; indices[32] = 22;
+		indices[33] = 20; indices[34] = 22; indices[35] = 23;
+
+		m_pMesh->UnlockIndexBuffer();
+
+	// FIll Attribute buffer:
+
+		DWORD* attribute_buffer = nullptr;
+
+		m_pMesh->LockAttributeBuffer( 0, &attribute_buffer );
+
+		// Group a:
+		for ( uint32 a = 0u; a < 4u; a++)
+		{
+			attribute_buffer[a] = 0u;
+		}
+
+		// Group b:
+		for ( uint32 b = 4u; b < 8u; b++ )
+		{
+			attribute_buffer[b] = 1u;
+		}
+
+		// Group c:
+		for ( uint32 c = 8u; c < 12u; c++ )
+		{
+			attribute_buffer[c] = 2u;
+		}
+
+		m_pMesh->UnlockAttributeBuffer();
+
+	// Optimize Mesh to generate an attrubute table:
+
+		std::vector<DWORD> adjacency_buffer( m_pMesh->GetNumFaces() * 3u );
+
+		m_pMesh->GenerateAdjacency( 0.0f, &adjacency_buffer[0] );
+
+		result = m_pMesh->OptimizeInplace( D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_COMPACT | D3DXMESHOPT_VERTEXCACHE, &adjacency_buffer[0], nullptr, nullptr, nullptr );
+
+		if (FAILED(result))
+		{
+			MessageBoxA( m_phWnd, "Failed to optimize mesh with OptimizeInplace(...)", "ERROR:RendeSystem::CreateMesh", 0u );
+	
+			return nullptr;
+		}
+
+	// Dump the Mesh data to file:
+
+		m_OutFile.open( "C:/TemporaryStorage/MeshDump.txt" );
+
+	//	this->DumpVertices( m_OutFile, m_pMesh );
+	//	this->DumpIndices( m_OutFile, m_pMesh );
+	//	this->DumpAttributeBuffer( m_OutFile, m_pMesh );
+	//	this->DumpAdjacencyBuffer( m_OutFile, m_pMesh );
+	//	this->DumpAttributeTable( m_OutFile, m_pMesh );
+
+		m_OutFile.close();
+
+	// Load Textures and set filters:
+
+		D3DXCreateTextureFromFileA( m_pDevice, "C:/TemporaryStorage/Geass_256x256.png", &m_pMeshTextures[0] );
+		D3DXCreateTextureFromFileA( m_pDevice, "C:/TemporaryStorage/Geass_256x256.png", &m_pMeshTextures[1] );
+		D3DXCreateTextureFromFileA( m_pDevice, "C:/TemporaryStorage/Geass_256x256.png", &m_pMeshTextures[2] );
+
+		m_pDevice->SetSamplerState( 0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR );
+		m_pDevice->SetSamplerState( 0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR );
+		m_pDevice->SetSamplerState( 0, D3DSAMP_MIPFILTER, D3DTEXF_POINT  );
+
+		return m_pMesh;
+	}
+
 	void RenderSystem::CreateVertexBuffer()
 	{
 	// Create Vertices:
 
-		Vertex vertices[12];
+		Vertex vertices[24];
 
 	// Create vertex buffer:
 
@@ -106,25 +275,41 @@ namespace dx9
 
 	// Vertices of a unit cube:
 				
-		// Front face
-		vertices[0]  = Vertex( -1.0f, 0.0f, -1.0f,    0.0f, 0.707f, -0.707f, Color::White );
-		vertices[1]  = Vertex(  0.0f, 1.0f,  0.0f,    0.0f, 0.707f, -0.707f, Color::White );
-		vertices[2]  = Vertex(  1.0f, 0.0f, -1.0f,    0.0f, 0.707f, -0.707f, Color::White );
-
-		// Left face
-		vertices[3]  = Vertex( -1.0f, 0.0f,  1.0f, -0.707f, 0.707f,    0.0f, Color::White );
-		vertices[4]  = Vertex(  0.0f, 1.0f,  0.0f, -0.707f, 0.707f,    0.0f, Color::White );
-		vertices[5]  = Vertex( -1.0f, 0.0f, -1.0f, -0.707f, 0.707f,    0.0f, Color::White );
-
-		// Right face
-		vertices[6]  = Vertex(  1.0f, 0.0f, -1.0f,  0.707f, 0.707f,    0.0f, Color::White );
-		vertices[7]  = Vertex(  0.0f, 1.0f,  0.0f,  0.707f, 0.707f,    0.0f, Color::White );
-		vertices[8]  = Vertex(  1.0f, 0.0f,  1.0f,  0.707f, 0.707f,    0.0f, Color::White );
-
-		// Back face
-		vertices[9]  = Vertex(  1.0f, 0.0f, 1.0f,     0.0f,  0.707f,  0.707f, Color::White );
-		vertices[10] = Vertex(  0.0f, 1.0f, 0.0f,     0.0f,  0.707f,  0.707f, Color::White );
-		vertices[11] = Vertex( -1.0f, 0.0f, 1.0f,     0.0f,  0.707f,  0.707f, Color::White );
+		// fill in the front face vertex data
+		vertices[0]  = Vertex( -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f, Color::White );
+		vertices[1]  = Vertex( -1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f, Color::White );
+		vertices[2]  = Vertex(  1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f, Color::White );
+		vertices[3]  = Vertex(  1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f, Color::White );
+					    
+		// fill in the  back face vertex data
+		vertices[4]  = Vertex( -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f, Color::White );
+		vertices[5]  = Vertex(  1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f, Color::White );
+		vertices[6]  = Vertex(  1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f, Color::White );
+		vertices[7]  = Vertex( -1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f, Color::White );
+					    					 
+		// fill in the  top face vertex data 
+		vertices[8]  = Vertex( -1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f, Color::White );
+		vertices[9]  = Vertex( -1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f, Color::White );
+		vertices[10] = Vertex(  1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f, Color::White );
+		vertices[11] = Vertex(  1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f, Color::White );
+					    
+		// fill in the  bottom face vertex data
+		vertices[12] = Vertex( -1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f, Color::White );
+		vertices[13] = Vertex(  1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f, Color::White );
+		vertices[14] = Vertex(  1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f, Color::White );
+		vertices[15] = Vertex( -1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f, Color::White );
+					    
+		// fill in the  left face vertex data
+		vertices[16] = Vertex( -1.0f, -1.0f,  1.0f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f, Color::White );
+		vertices[17] = Vertex( -1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f, Color::White );
+		vertices[18] = Vertex( -1.0f,  1.0f, -1.0f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f, Color::White );
+		vertices[19] = Vertex( -1.0f, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f, Color::White );
+					    
+		// fill in the  right face vertex data
+		vertices[20] = Vertex(  1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f, Color::White );
+		vertices[21] = Vertex(  1.0f,  1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f, Color::White );
+		vertices[22] = Vertex(  1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f, Color::White );
+		vertices[23] = Vertex(  1.0f, -1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f, Color::White );
 
 		memcpy_s( pVertices, sizeof(vertices), vertices, sizeof(vertices) );
 
@@ -153,24 +338,24 @@ namespace dx9
 		indices[3]  = 0; indices[4]  = 2; indices[5]  = 3;
 
 		// back side
-		indices[6]  = 4; indices[7]  = 6; indices[8]  = 5;
-		indices[9]  = 4; indices[10] = 7; indices[11] = 6;
+		indices[6]  = 4; indices[7]  = 5; indices[8]  = 6;
+		indices[9]  = 4; indices[10] = 6; indices[11] = 7;
 
 		// left side
-		indices[12] = 4; indices[13] = 5; indices[14] = 1;
-		indices[15] = 4; indices[16] = 1; indices[17] = 0;
+		indices[12] = 8; indices[13] = 9; indices[14] = 10;
+		indices[15] = 8; indices[16] = 10; indices[17] = 11;
 
 		// right side
-		indices[18] = 3; indices[19] = 2; indices[20] = 6;
-		indices[21] = 3; indices[22] = 6; indices[23] = 7;
+		indices[18] = 12; indices[19] = 13; indices[20] = 14;
+		indices[21] = 12; indices[22] = 14; indices[23] = 15;
 
 		// top
-		indices[24] = 1; indices[25] = 5; indices[26] = 6;
-		indices[27] = 1; indices[28] = 6; indices[29] = 2;
+		indices[24] = 16; indices[25] = 17; indices[26] = 18;
+		indices[27] = 16; indices[28] = 18; indices[29] = 19;
 
 		// bottom
-		indices[30] = 4; indices[31] = 0; indices[32] = 3;
-		indices[33] = 4; indices[34] = 3; indices[35] = 7;
+		indices[30] = 20; indices[31] = 21; indices[32] = 22;
+		indices[33] = 20; indices[34] = 22; indices[35] = 23;
 
 		memcpy_s( pIndices, sizeof(indices), indices, sizeof(indices) );
 
@@ -207,6 +392,17 @@ namespace dx9
 
 		m_pDevice->SetLight( 0u, &m_Light);
 		m_pDevice->LightEnable( 0u, TRUE );
+	}
+
+	void RenderSystem::CreateTexture(const char* filePath)
+	{
+		D3DXCreateTextureFromFileA( m_pDevice, filePath, &m_pTexture );
+
+		m_pDevice->SetTexture( 0, m_pTexture );
+
+		m_pDevice->SetSamplerState( 0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR );
+		m_pDevice->SetSamplerState( 0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR );
+		m_pDevice->SetSamplerState( 0, D3DSAMP_MIPFILTER, D3DTEXF_POINT  );
 	}
 
 	void RenderSystem::SetView()
@@ -249,17 +445,142 @@ namespace dx9
 		m_pDevice->SetTransform(D3DTS_PROJECTION, &proj);		
 	}
 
+	void RenderSystem::DumpVertices(std::ofstream& outFile, ID3DXMesh* mesh)
+	{
+		outFile << "Vertices:" << "\n";
+		outFile << "---------" << "\n\n";
+
+		Vertex* vertex = nullptr;
+
+		mesh->LockVertexBuffer( 0, (void**)&vertex );
+
+		for ( DWORD i = 0u; i < mesh->GetNumVertices(); i++ )
+		{
+			outFile << "Vertex " << i << ": (";
+
+			outFile << vertex[i].position.x     << ", " << vertex[i].position.y     << ", " << vertex[i].position.z << ", ";
+			outFile << vertex[i].normal.x       << ", " << vertex[i].normal.y       << ", " << vertex[i].normal.z << ", ";
+			outFile << vertex[i].textureCoord.x << ", " << vertex[i].textureCoord.y << ")" << "\n";
+		}
+
+		mesh->UnlockVertexBuffer();
+
+		outFile << "\n\n";
+	}
+
+	void RenderSystem::DumpIndices(std::ofstream& outFile, ID3DXMesh* mesh)
+	{
+		outFile << "Indices:" << "\n";
+		outFile << "--------" << "\n\n";
+
+		WORD* indices = nullptr;
+
+		mesh->LockIndexBuffer(0, (void**)&indices);
+
+		for ( DWORD i = 0u; i < mesh->GetNumFaces(); i++ )
+		{
+			outFile << "Triangle " << i << ": ";
+
+			outFile << indices[i * 3]     << " ";
+			outFile << indices[i * 3 + 1] << " ";
+			outFile << indices[i * 3 + 2] << "\n";
+		}
+
+		mesh->UnlockIndexBuffer();
+
+		outFile << "\n\n";
+	}
+
+	void RenderSystem::DumpAttributeBuffer(std::ofstream& outFile, ID3DXMesh* mesh)
+	{
+		outFile << "Attribute Buffer:" << "\n";
+		outFile << "-----------------" << "\n\n";
+
+		DWORD* attributeBuffer = nullptr;
+
+		mesh->LockAttributeBuffer(0, &attributeBuffer);
+
+	// An attribute for each face:
+
+		for ( DWORD i = 0; i < mesh->GetNumFaces(); i++ )
+		{
+			outFile << "Triangle lives in subset " << i << ": ";
+			outFile << attributeBuffer[i] << "\n";
+		}
+		
+		mesh->UnlockAttributeBuffer();
+
+		outFile << "\n\n";
+	}
+
+	void RenderSystem::DumpAdjacencyBuffer(std::ofstream& outFile, ID3DXMesh* mesh)
+	{
+		outFile << "Adjacency Buffer:" << std::endl;
+		outFile << "-----------------" << std::endl << std::endl;
+
+		// three enttries per face
+		std::vector<DWORD> adjacencyBuffer(mesh->GetNumFaces() * 3);
+
+		mesh->GenerateAdjacency(0.0f, &adjacencyBuffer[0]);
+
+		for ( DWORD i = 0; i < mesh->GetNumFaces(); i++ )
+		{
+			outFile << "Triangle's adjacent to triangle " << i << ": ";
+			outFile << adjacencyBuffer[i * 3] << " ";
+			outFile << adjacencyBuffer[i * 3 + 1] << " ";
+			outFile << adjacencyBuffer[i * 3 + 2] << std::endl;
+		}
+
+		outFile << std::endl << std::endl;
+	}
+
+	void RenderSystem::DumpAttributeTable(std::ofstream& outFile, ID3DXMesh* mesh)
+	{
+		outFile << "Attribute Table:" << std::endl;
+		outFile << "----------------" << std::endl << std::endl;
+
+		// number of entries in the attribute table
+		DWORD numEntries = 0;
+
+		mesh->GetAttributeTable(0, &numEntries);
+
+		std::vector<D3DXATTRIBUTERANGE> table(numEntries);
+
+		mesh->GetAttributeTable(&table[0], &numEntries);
+
+		for ( DWORD i = 0; i < numEntries; i++ )
+		{
+			outFile << "Entry " << i << std::endl;
+			outFile << "-----------" << std::endl;
+
+			outFile << "Subset ID:    " << table[i].AttribId    << std::endl;
+			outFile << "Face Start:   " << table[i].FaceStart   << std::endl;
+			outFile << "Face Count:   " << table[i].FaceCount   << std::endl;
+			outFile << "Vertex Start: " << table[i].VertexStart << std::endl;
+			outFile << "Vertex Count: " << table[i].VertexCount << std::endl;
+			outFile << std::endl;
+		}
+
+		outFile << std::endl << std::endl;
+	}
+
 	void RenderSystem::Render( const float& dt )
 	{
 	// Spin the cube:
 
-		D3DXMATRIX Rx, Ry;
+		D3DXMATRIX Rx;
+		D3DXMATRIX Ry;
+		D3DXMATRIX Rz;
 
-	// rotate 45 degrees on x-axis:
+	// Rotate x-axis:
 
-		D3DXMatrixRotationX( &Rx, 0.3f );
+		static float32 x = 0.0f;
 
-	// incremement y-rotation angle each frame:
+		D3DXMatrixRotationX( &Rx, x );
+
+		x += dt;
+
+	// Rotate y-axis:
 
 		static float32 y = 0.0f;
 
@@ -267,32 +588,33 @@ namespace dx9
 
 		y += dt;
 
-	// reset angle to zero when angle reaches 2*PI:
+	// Rotate z-axis:
 
-		if (y >= 6.28f)
-		{
-			y = 0.0f;
-		}
+		static float32 z = 0.0f;
 
-	// Combine x-axis and y-axis rotation transformations:
+		D3DXMatrixRotationZ( &Rz, z );
 
-		D3DXMATRIX p = Rx * Ry;
+		z += dt;
+
+	// Combine x-axis, y-axis and z-axis rotation transformations:
+
+		D3DXMATRIX p = Rx * Ry * Rz;
 
 		m_pDevice->SetTransform( D3DTS_WORLD, &p );
 
 	// Draw the scene:
 
-		m_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, Color::Black, 1.0f, 0 );
+		m_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, Color::DarkGrey, 1.0f, 0 );
 		m_pDevice->BeginScene();
 
 		m_pDevice->SetStreamSource( 0, m_pVertexBuffer, 0, sizeof(Vertex) );
 		m_pDevice->SetFVF(Vertex::FVF);
-	//	m_pDevice->SetIndices( m_pIndexBuffer );
+		m_pDevice->SetIndices( m_pIndexBuffer );
 
 	// Draw cube:
 
-	//	m_pDevice->DrawIndexedPrimitive( D3DPT_TRIANGLELIST, 0, 0u, 12u, 0u, 12u );
-		m_pDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 4u );
+		m_pDevice->DrawIndexedPrimitive( D3DPT_TRIANGLELIST, 0, 0u, 24u, 0u, 12u );
+	//	m_pDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 4u );
 		
 		m_pDevice->EndScene();
 		m_pDevice->Present( nullptr, nullptr, nullptr, nullptr );
@@ -302,13 +624,19 @@ namespace dx9
 	{
 	// Spin the cube:
 
-		D3DXMATRIX Rx, Ry;
+		D3DXMATRIX Rx;
+		D3DXMATRIX Ry;
+		D3DXMATRIX Rz;
 
-	// rotate 45 degrees on x-axis:
+	// Rotate x-axis:
 
-		D3DXMatrixRotationX( &Rx, 3.14f / 4.0f);
+		static float32 x = 0.0f;
 
-	// incremement y-rotation angle each frame:
+		D3DXMatrixRotationX( &Rx, x );
+
+		x += dt;
+
+	// Rotate y-axis:
 
 		static float32 y = 0.0f;
 
@@ -316,26 +644,31 @@ namespace dx9
 
 		y += dt;
 
-	// reset angle to zero when angle reaches 2*PI:
+	// Rotate z-axis:
 
-		if (y >= 6.28f)
-		{
-			y = 0.0f;
-		}
+		static float32 z = 0.0f;
 
-	// Combine x-axis and y-axis rotation transformations:
+		D3DXMatrixRotationZ( &Rz, z );
 
-		D3DXMATRIX p = Rx * Ry;
+		z += dt;
+
+	// Combine x-axis, y-axis and z-axis rotation transformations:
+
+		D3DXMATRIX p = Rx * Ry * Rz;
 
 		m_pDevice->SetTransform( D3DTS_WORLD, &p );
 
 	// Draw the scene:
 
-		m_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x66666666, 1.0f, 0 );
+		m_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, Color::Pink, 1.0f, 0 );
 		m_pDevice->BeginScene();
 
-	//	D3DXCreateTorus( m_pDevice, 1.0f, 2.0f, 30u, 30u, &mesh, nullptr );
-		mesh->DrawSubset(0);
+		for ( size_t i = 0u; i < std::size( m_pMeshTextures ); i++ )
+		{
+			m_pDevice->SetTexture( 0, m_pMeshTextures[i] );
+			
+			mesh->DrawSubset( i );
+		}
 		
 		m_pDevice->EndScene();
 		m_pDevice->Present( nullptr, nullptr, nullptr, nullptr );
