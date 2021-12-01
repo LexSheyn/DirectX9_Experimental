@@ -233,11 +233,11 @@ namespace dx9
 
 		m_OutFile.open( "C:/TemporaryStorage/MeshDump.txt" );
 
-	//	this->DumpVertices( m_OutFile, m_pMesh );
-	//	this->DumpIndices( m_OutFile, m_pMesh );
-	//	this->DumpAttributeBuffer( m_OutFile, m_pMesh );
-	//	this->DumpAdjacencyBuffer( m_OutFile, m_pMesh );
-	//	this->DumpAttributeTable( m_OutFile, m_pMesh );
+		this->DumpVertices( m_OutFile, m_pMesh );
+		this->DumpIndices( m_OutFile, m_pMesh );
+		this->DumpAttributeBuffer( m_OutFile, m_pMesh );
+		this->DumpAdjacencyBuffer( m_OutFile, m_pMesh );
+		this->DumpAttributeTable( m_OutFile, m_pMesh );
 
 		m_OutFile.close();
 
