@@ -389,7 +389,7 @@ namespace dx9
 		m_pDevice->SetSamplerState( 0, D3DSAMP_MIPFILTER, D3DTEXF_POINT  );
 	}
 
-	void RenderSystem::SetView()
+	void RenderSystem::SetView( const float& dt )
 	{
 	// Set render state:
 
@@ -407,7 +407,11 @@ namespace dx9
 
 	// Position and aim the camera.
 
-		D3DXVECTOR3 position( 0.0f, 0.0f, -100.0f );
+		static float32 distance_z = -10.0f;
+
+		distance_z += dt;
+
+		D3DXVECTOR3 position( 0.0f, 0.0f, distance_z );
 		D3DXVECTOR3 target( 0.0f, 0.0f, 0.0f );
 		D3DXVECTOR3 up( 0.0f, 1.0f, 0.0f );
 		D3DXMATRIX view = {};
@@ -447,23 +451,46 @@ namespace dx9
 
 		static float32 x = 0.0f;
 		D3DXMatrixRotationX( &RotationX, x );
-		x += dt;
 
 	// Rotate y-axis:
 
-		static float32 y = -0.11f;
+		static float32 y = 0.0f;
 		D3DXMatrixRotationY( &RotationY, y );
-	//	y += dt;
 
 	// Rotate z-axis:
 
 		static float32 z = 0.0f;
 		D3DXMatrixRotationZ( &RotationZ, z );
-		z += dt;
+
+	// TEST CONTROLS:
+
+		if (::GetAsyncKeyState('X') & 0x8000f)
+		{
+			x += dt;
+		}
+		
+		if (::GetAsyncKeyState('Y') & 0x8000f)
+		{
+			y += dt;
+		}
+
+		if (::GetAsyncKeyState('Z') & 0x8000f)
+		{
+			z += dt;
+		}
+
+		if (::GetAsyncKeyState('Q') & 0x8000f)
+		{
+			this->SetView( dt );
+		}
+		else if (::GetAsyncKeyState('W') & 0x8000f)
+		{
+			this->SetView( -dt );
+		}
 
 	// Combine x-axis, y-axis and z-axis rotation transformations:
 
-		D3DXMATRIX WorldMatrix = Scaling * RotationY * Translation;
+		D3DXMATRIX WorldMatrix = Scaling * Translation;
 
 		m_pDevice->SetTransform( D3DTS_WORLD, &WorldMatrix);
 

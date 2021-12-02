@@ -36,7 +36,7 @@ namespace dx9
 		void CreateTexture( const char* filePath );
 
 		// TEST
-		void SetView();
+		void SetView( const float& dt );
 
 		void Render( ID3DXMesh* mesh, const float& dt );
 

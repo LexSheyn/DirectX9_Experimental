@@ -46,7 +46,7 @@ namespace dx9
 
 		m_Meshes.resize( scene->mNumMeshes );
 
-		for ( uint32 i = 0u; i < scene->mNumMeshes; i++ )
+		for ( uint32 i = 3u; i < scene->mNumMeshes; i++ )
 		{
 			m_Meshes[i] = this->CopyMesh(scene->mMeshes[i]);
 		}

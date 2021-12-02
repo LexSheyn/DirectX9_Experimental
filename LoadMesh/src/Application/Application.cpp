@@ -13,24 +13,12 @@
 
 		m_MeshLoader.LoadMesh( "C:/TemporaryStorage/45_ACP_Smith_and_Wesson_Hand_Gun/Handgun_obj.obj" );
 	
-		ID3DXMesh* test_mesh = m_MeshLoader.GetMeshes().at( 1 );
+		ID3DXMesh* test_mesh = m_MeshLoader.GetMeshes().at( 3 );
 	
 		mesh = test_mesh;
-	
-	//	bool8 result = false;
-	//
-	//	result = m_MeshLoader.Load( "C:/TemporaryStorage/ttt2/tttt.obj" );
-	//
-	//	if ( !result )
-	//	{
-	//		MessageBoxA( m_Window.GetHandle(), "ERROR::MeshLoader::Load::Failed!", "Window", 0u );
-	//	}
-	//	else
-	//	{
-	//		MessageBoxA(m_Window.GetHandle(), "INFO::MeshLoader::Load::Successfull! Keep going!", "Window", 0u);
-	//	}
 
-		// TEST
+	// TEST:
+
 		std::vector<dx9::Vertex> vertices;
 
 		vertices.resize( 24u );
@@ -114,7 +102,7 @@
 	//	m_Window.GetRenderSystem().CreateMaterial();
 	//	m_Window.GetRenderSystem().CreateLight( D3DXVECTOR3( 0.0f, 0.3f, 0.25f ), D3DXCOLOR( 1.0f, 1.0f, 1.0f, 1.0f ) );
 	//	m_Window.GetRenderSystem().CreateTexture( "C:/TemporaryStorage/Geass_256x256.png" );
-		m_Window.GetRenderSystem().SetView();
+		m_Window.GetRenderSystem().SetView( 0.0f );
 
 	//	D3DXCreateTorus( &m_Window.GetRenderSystem().GetDevice(), 1.0f, 2.0f, 30u, 30u, &mesh, nullptr );
 	}
@@ -152,5 +140,5 @@
 
 	void Application::DoFrame()
 	{
-		m_Window.GetRenderSystem().Render( mesh, 0.02f );
+		m_Window.GetRenderSystem().Render( mesh, 0.1f );
 	}
