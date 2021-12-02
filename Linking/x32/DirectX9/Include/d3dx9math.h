@@ -18,7 +18,8 @@
 #endif
 #pragma warning(disable:4201) // anonymous unions warning
 
-
+// Uinitialized variables:
+#pragma warning(disable:26495)
 
 //===========================================================================
 //

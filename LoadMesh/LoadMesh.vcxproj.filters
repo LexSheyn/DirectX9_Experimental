@@ -54,16 +54,13 @@
     <ClCompile Include="src\RenderSystem\D3DUtility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\RenderSystem\Vertex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\RenderSystem\Color.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\MeshLoader\MeshLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\RenderSystem\VertexMesh.cpp">
+    <ClCompile Include="src\RenderSystem\Vertex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -104,16 +101,13 @@
     <ClInclude Include="src\RenderSystem\D3DUtility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\RenderSystem\Vertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\RenderSystem\Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\MeshLoader\MeshLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\RenderSystem\VertexMesh.h">
+    <ClInclude Include="src\RenderSystem\Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

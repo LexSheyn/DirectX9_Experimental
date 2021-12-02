@@ -1,6 +1,9 @@
 #ifndef MESHLOADER_H
 #define MESHLOADER_H
 
+#include "../RenderSystem/D3DUtility.h"
+#include "../RenderSystem/Vertex.h"
+
 namespace dx9
 {
 	class MeshLoader
@@ -16,17 +19,31 @@ namespace dx9
 
 	// Functions:
 
-		bool8 Load( const char* filePath );
+		bool8 LoadMesh( const char* filePath );
 
-		void GetMeshes( std::vector<ID3DXMesh*>& meshes );
+	// Accessors:
+
+		std::vector<ID3DXMesh*>& GetMeshes();
+
+	// Modifiers:
+
+		void SetOutputWindow( HWND hWnd );
+
+		void SetD3DDevice( IDirect3DDevice9* pDevice );
 
 	private:
 
+	// Private Functions:
+
+		ID3DXMesh* CopyMesh( aiMesh* iMesh );
+
 	// Variables:
 
-		HWND m_hWnd = nullptr;
+		HWND phWnd = nullptr;
 
-		std::vector<aiMesh> m_Meshes;
+		IDirect3DDevice9* pDevice = nullptr;
+
+		std::vector<ID3DXMesh*> m_Meshes;
 	};
 }
 

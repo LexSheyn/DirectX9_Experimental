@@ -5,21 +5,18 @@ namespace dx9
 {
 // Constructor:	
 	
-	Vertex::Vertex(D3DXVECTOR3 position, D3DXVECTOR3 normal, D3DXVECTOR2 textureCoord, D3DCOLOR color)
+	Vertex::Vertex(D3DXVECTOR3 position, D3DXVECTOR3 normal, D3DXVECTOR2 textureCoord)
 	{
 		this->position     = position;
 
 		this->normal       = normal;
 
 		this->textureCoord = textureCoord;
-
-		this->color        = color;
 	}
 
-	Vertex::Vertex(float32 x , float32 y , float32 z, 
-		           float32 nx, float32 ny, float32 nz,
-		           float32 u , float32 v,
-		           D3DCOLOR color)
+	Vertex::Vertex( float32 x , float32 y , float32 z,
+		            float32 nx, float32 ny, float32 nz,
+		            float32 u , float32 v )
 	{
 		position.x = x;
 		position.y = y;
@@ -31,8 +28,6 @@ namespace dx9
 
 		textureCoord.x = u;
 		textureCoord.y = v;
-
-		this->color = color;
 	}
 
 

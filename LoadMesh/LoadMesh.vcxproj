@@ -226,7 +226,6 @@
     <ClCompile Include="src\RenderSystem\D3DUtility.cpp" />
     <ClCompile Include="src\RenderSystem\RenderSystem.cpp" />
     <ClCompile Include="src\RenderSystem\Vertex.cpp" />
-    <ClCompile Include="src\RenderSystem\VertexMesh.cpp" />
     <ClCompile Include="src\Timer\Timer.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
@@ -244,7 +243,6 @@
     <ClInclude Include="src\RenderSystem\D3DUtility.h" />
     <ClInclude Include="src\RenderSystem\RenderSystem.h" />
     <ClInclude Include="src\RenderSystem\Vertex.h" />
-    <ClInclude Include="src\RenderSystem\VertexMesh.h" />
     <ClInclude Include="src\Timer\Timer.h" />
     <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>

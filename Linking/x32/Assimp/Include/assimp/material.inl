@@ -49,6 +49,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef AI_MATERIAL_INL_INC
 #define AI_MATERIAL_INL_INC
 
+// Unscoped enums:
+#pragma warning(disable:26812)
+
 // ---------------------------------------------------------------------------
 inline aiPropertyTypeInfo ai_real_to_property_type_info(float)
 {
@@ -90,7 +93,7 @@ inline aiReturn aiMaterial::Get(const char* pKey,unsigned int type,
 {
     unsigned int iNum = pMax ? *pMax : 1;
 
-    const aiMaterialProperty* prop;
+    const aiMaterialProperty* prop = {};
     const aiReturn ret = ::aiGetMaterialProperty(this,pKey,type,idx,
         (const aiMaterialProperty**)&prop);
     if ( AI_SUCCESS == ret )    {
@@ -117,7 +120,7 @@ template <typename Type>
 inline aiReturn aiMaterial::Get(const char* pKey,unsigned int type,
     unsigned int idx,Type& pOut) const
 {
-    const aiMaterialProperty* prop;
+    const aiMaterialProperty* prop = {};
     const aiReturn ret = ::aiGetMaterialProperty(this,pKey,type,idx,
         (const aiMaterialProperty**)&prop);
     if ( AI_SUCCESS == ret ) {

@@ -51,6 +51,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "types.h"
 
+// Unscoped enums:
+#pragma warning(disable:26812)
+
 #ifdef __cplusplus
 extern "C" {
 #endif

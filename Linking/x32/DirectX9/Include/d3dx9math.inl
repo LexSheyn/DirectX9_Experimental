@@ -10,6 +10,10 @@
 #ifndef __D3DX9MATH_INL__
 #define __D3DX9MATH_INL__
 
+// Uinitialized variables:
+#pragma warning(disable:26495)
+
+
 //===========================================================================
 //
 // Inline Class Methods

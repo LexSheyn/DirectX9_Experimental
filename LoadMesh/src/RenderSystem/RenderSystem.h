@@ -3,7 +3,7 @@
 
 #include "D3DUtility.h"
 #include "Vertex.h"
-#include "VertexMesh.h"
+#include "Color.h"
 
 namespace dx9
 {
@@ -21,13 +21,10 @@ namespace dx9
 
 		// CREATE MESH BOX TEST
 		ID3DXMesh* CreateMesh();
-		ID3DXMesh* CreateMesh( std::vector<Vertex>& vertices, std::vector<DWORD>& indices );
-
-		// TEST
-		void CreateVertexBuffer();
-
-		// TEST
-		void CreateIndexBuffer();
+		ID3DXMesh* CreateMesh( const std::vector<Vertex>& iVertices, 
+			                   const std::vector<uint32>& iIndices,
+			                         std::vector<D3DMATERIAL9>& iMaterials, 
+			                         std::vector<IDirect3DTexture9*>& iPtrTextures );
 
 		// TEST
 		void CreateMaterial();
@@ -41,23 +38,21 @@ namespace dx9
 		// TEST
 		void SetView();
 
-		// TEST DUMP
-		void DumpVertices( std::ofstream& outFile, ID3DXMesh* mesh );
-		void DumpIndices( std::ofstream& outFile, ID3DXMesh* mesh );
-		void DumpAttributeBuffer( std::ofstream& outFile, ID3DXMesh* mesh );
-		void DumpAdjacencyBuffer( std::ofstream& outFile, ID3DXMesh* mesh );
-		void DumpAttributeTable( std::ofstream& outFile, ID3DXMesh* mesh );
-
-		// TEST
-		void Render( const float& dt );	
-
 		void Render( ID3DXMesh* mesh, const float& dt );
 
 	// Accessors:
 
-		IDirect3DDevice9& GetDevice() const;
+		IDirect3DDevice9* GetDevice() const;
 
 	private:
+
+	// Private Functions:
+
+		void LogVertices( std::ofstream& outFile, ID3DXMesh* mesh );
+		void LogIndices( std::ofstream& outFile, ID3DXMesh* mesh );
+		void LogAttributeBuffer( std::ofstream& outFile, ID3DXMesh* mesh );
+		void LogAdjacencyBuffer( std::ofstream& outFile, ID3DXMesh* mesh );
+		void LogAttributeTable( std::ofstream& outFile, ID3DXMesh* mesh );
 
 	// Variables:
 
