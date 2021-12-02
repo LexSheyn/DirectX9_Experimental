@@ -93,7 +93,7 @@ namespace dx9
 
 		tempVertices.resize( iMesh->mNumVertices );
 
-		for ( size_t i = 0u; i < tempVertices.size(); i++ )
+		for ( size_t i = 0u; i < iMesh->mNumVertices; i++ )
 		{
 		// Position:
 

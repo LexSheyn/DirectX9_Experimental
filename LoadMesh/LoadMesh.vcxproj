@@ -102,8 +102,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Linking\x32\DirectX9\Lib\d;$(SolutionDir)Linking\x32\Assimp\Lib;%(AdditionalDependencies)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d9.lib;d3dx9d.lib;%(AdditionalDependencies);assimp-vc142-mt.lib;bz2.lib;Irrlicht.lib;jpeg.lib;kubazip.lib;libpng16.lib;minizip.lib;poly2tri.lib;polyclipping.lib;turbojpeg.lib;zlib.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Linking\x32\DirectX9\Lib\d;$(SolutionDir)Linking\x32\Assimp\Lib\d;%(AdditionalDependencies)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d9.lib;d3dx9d.lib;%(AdditionalDependencies);assimp-vc142-mtd.lib;bz2d.lib;Irrlicht.lib;jpeg.lib;kubazip.lib;libpng16d.lib;minizip.lib;poly2tri.lib;polyclipping.lib;turbojpeg.lib;zlibd.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -124,7 +124,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Linking\x32\DirectX9\Lib\r;$(SolutionDir)Linking\x32\Assimp\Lib;%(AdditionalDependencies)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Linking\x32\DirectX9\Lib\r;$(SolutionDir)Linking\x32\Assimp\Lib\r;%(AdditionalDependencies)</AdditionalLibraryDirectories>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies);assimp-vc142-mt.lib;bz2.lib;Irrlicht.lib;jpeg.lib;kubazip.lib;libpng16.lib;minizip.lib;poly2tri.lib;polyclipping.lib;turbojpeg.lib;zlib.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
