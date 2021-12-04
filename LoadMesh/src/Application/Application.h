@@ -4,6 +4,7 @@
 #include "../Window/Window.h"
 #include "../Timer/Timer.h"
 #include "../MeshLoader/MeshLoader.h"
+#include "../OBJLoader/OBJLoader.h"
 
 class Application
 {

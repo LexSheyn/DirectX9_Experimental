@@ -318,15 +318,15 @@ namespace dx9
 
 	// Log the Mesh data to file:
 
-		m_OutFile.open( "C:/TemporaryStorage/MeshLog.txt" );
-
-		this->LogVertices( m_OutFile, mesh);
-		this->LogIndices( m_OutFile, mesh);
-		this->LogAttributeBuffer( m_OutFile, mesh);
-		this->LogAdjacencyBuffer( m_OutFile, mesh);
-		this->LogAttributeTable( m_OutFile, mesh);
-
-		m_OutFile.close();
+	//	m_OutFile.open( "C:/TemporaryStorage/MeshLog.txt" );
+	//
+	//	this->LogVertices( m_OutFile, mesh);
+	//	this->LogIndices( m_OutFile, mesh);
+	//	this->LogAttributeBuffer( m_OutFile, mesh);
+	//	this->LogAdjacencyBuffer( m_OutFile, mesh);
+	//	this->LogAttributeTable( m_OutFile, mesh);
+	//
+	//	m_OutFile.close();
 
 	// Load Textures:
 
@@ -445,7 +445,12 @@ namespace dx9
 		D3DXMATRIX Translation;
 
 		D3DXMatrixScaling( &Scaling, 1.0f, 1.0f, 1.0f );
-		D3DXMatrixTranslation( &Translation, 10.0f, 0.0f, 0.0f );
+
+		static float32 tx = 0.0f;
+		static float32 ty = 0.0f;
+		static float32 tz = 0.0f;
+
+		D3DXMatrixTranslation( &Translation, tx, ty, tz);
 
 	// Rotate x-axis:
 
@@ -464,17 +469,17 @@ namespace dx9
 
 	// TEST CONTROLS:
 
-		if (::GetAsyncKeyState('X') & 0x8000f)
+		if (::GetAsyncKeyState('Z') & 0x8000f)
 		{
 			x += dt;
 		}
 		
-		if (::GetAsyncKeyState('Y') & 0x8000f)
+		if (::GetAsyncKeyState('X') & 0x8000f)
 		{
 			y += dt;
 		}
 
-		if (::GetAsyncKeyState('Z') & 0x8000f)
+		if (::GetAsyncKeyState('C') & 0x8000f)
 		{
 			z += dt;
 		}
@@ -483,14 +488,32 @@ namespace dx9
 		{
 			this->SetView( dt );
 		}
-		else if (::GetAsyncKeyState('W') & 0x8000f)
+		else if (::GetAsyncKeyState('E') & 0x8000f)
 		{
 			this->SetView( -dt );
 		}
 
+		if (::GetAsyncKeyState('W') & 0x8000f)
+		{
+			ty += dt;
+		}
+		else if (::GetAsyncKeyState('S') & 0x8000f)
+		{
+			ty -= dt;
+		}
+
+		if (::GetAsyncKeyState('A') & 0x8000f)
+		{
+			tx -= dt;
+		}
+		else if (::GetAsyncKeyState('D') & 0x8000f)
+		{
+			tx += dt;
+		}
+
 	// Combine x-axis, y-axis and z-axis rotation transformations:
 
-		D3DXMATRIX WorldMatrix = Scaling * Translation;
+		D3DXMATRIX WorldMatrix = Translation * Scaling * RotationX * RotationY * RotationZ;
 
 		m_pDevice->SetTransform( D3DTS_WORLD, &WorldMatrix);
 
@@ -498,17 +521,17 @@ namespace dx9
 
 		m_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, Color::DarkGrey, 1.0f, 0 );
 		m_pDevice->BeginScene();
+	
+		for ( size_t i = 0u; i < std::size( m_pMeshTextures ); i++ )
+		{
+			m_pDevice->SetTexture( 0, m_pMeshTextures[i] );
+			
+			mesh->DrawSubset( i );
+		}
+		
+		m_pDevice->SetTexture( 0, m_pMeshTextures[0] );
 
-	//	for ( size_t i = 0u; i < std::size( m_pMeshTextures ); i++ )
-	//	{
-	//		m_pDevice->SetTexture( 0, m_pMeshTextures[i] );
-	//		
-	//		mesh->DrawSubset( i );
-	//	}
-	//	
-	//	m_pDevice->SetTexture( 0, m_pMeshTextures[0] );
-
-		mesh->DrawSubset( 0 );
+	//	mesh->DrawSubset( 0 );
 
 		m_pDevice->EndScene();
 		m_pDevice->Present( nullptr, nullptr, nullptr, nullptr );

@@ -9,7 +9,7 @@ namespace dx9
 
 	// Constructor:
 
-		Vertex() = default;
+		Vertex();
 		Vertex( D3DXVECTOR3 position, D3DXVECTOR3 normal, D3DXVECTOR2 textureCoord);
 		Vertex( float32 x , float32 y , float32 z,
 			    float32 nx, float32 ny, float32 nz, 

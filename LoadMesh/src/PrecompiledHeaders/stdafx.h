@@ -28,6 +28,9 @@ typedef double             float64;
 #include <random>
 #include <chrono>
 #include <fstream>
+#include <iostream>
+#include <io.h>
+#include <fcntl.h>
 
 // Windows:
 #define NOMINMAX

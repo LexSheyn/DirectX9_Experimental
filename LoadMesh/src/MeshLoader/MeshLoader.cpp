@@ -31,7 +31,7 @@ namespace dx9
 	// Usually - if speed is not the most important aspect for you - you'll t
 	// probably to request more postprocessing than we do in this example.
 
-		const aiScene* scene = aiImportFile( filePath, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices );
+		const aiScene* scene = aiImportFile( filePath, aiProcess_CalcTangentSpace );
 
 	// If the import failed, report it:
 
@@ -46,7 +46,7 @@ namespace dx9
 
 		m_Meshes.resize( scene->mNumMeshes );
 
-		for ( uint32 i = 3u; i < scene->mNumMeshes; i++ )
+		for ( uint32 i = 0u; i < scene->mNumMeshes; i++ )
 		{
 			m_Meshes[i] = this->CopyMesh(scene->mMeshes[i]);
 		}
@@ -97,12 +97,12 @@ namespace dx9
 		{
 		// Position:
 
-			if ( iMesh->HasPositions() )
-			{
+		//	if ( iMesh->HasPositions() )
+		//	{
 				tempVertices[i].position.x = iMesh->mVertices[i].x;
 				tempVertices[i].position.y = iMesh->mVertices[i].y;
 				tempVertices[i].position.z = iMesh->mVertices[i].z;
-			}
+		//	}
 
 		// Normal:
 

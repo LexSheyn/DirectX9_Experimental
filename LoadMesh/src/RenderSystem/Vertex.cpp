@@ -5,6 +5,20 @@ namespace dx9
 {
 // Constructor:	
 	
+	Vertex::Vertex()
+	{
+		position.x = 0.0f;
+		position.y = 0.0f;
+		position.z = 0.0f;
+
+		normal.x = 0.0f;
+		normal.y = 0.0f;
+		normal.z = 0.0f;
+
+		textureCoord.x = 0.0f;
+		textureCoord.y = 0.0f;
+	}
+
 	Vertex::Vertex(D3DXVECTOR3 position, D3DXVECTOR3 normal, D3DXVECTOR2 textureCoord)
 	{
 		this->position     = position;

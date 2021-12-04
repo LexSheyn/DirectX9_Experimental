@@ -4,20 +4,35 @@
 // Constructors and Destructor:
 
 	Application::Application()
-		: m_Window ( 1154, 630, "DirectX9_Test_Window" )
+		: m_Window ( 1600, 900, "DirectX9_Test_Window" )
 	{
 	// Loading Mesh:
 
-		m_MeshLoader.SetOutputWindow( m_Window.GetHandle() );
-		m_MeshLoader.SetD3DDevice( m_Window.GetRenderSystem().GetDevice() );
+	//	m_MeshLoader.SetOutputWindow( m_Window.GetHandle() );
+	//	m_MeshLoader.SetD3DDevice( m_Window.GetRenderSystem().GetDevice() );
+	//
+	//	m_MeshLoader.LoadMesh( "D:/Models/robo-obj-pose4/source/robot.obj" );
+	//
+	//	ID3DXMesh* test_mesh = m_MeshLoader.GetMeshes().at( 0 );
+	//
+	//	mesh = test_mesh;
 
-		m_MeshLoader.LoadMesh( "C:/TemporaryStorage/45_ACP_Smith_and_Wesson_Hand_Gun/Handgun_obj.obj" );
-	
-		ID3DXMesh* test_mesh = m_MeshLoader.GetMeshes().at( 3 );
-	
-		mesh = test_mesh;
+		dx9::OBJLoader loader;
 
-	// TEST:
+		bool8 result = false;
+
+		result = loader.LoadOBJ( "D:/Models/minecraft-castle/source/castle.obj" );
+
+		if ( result )
+		{
+			MessageBoxA( m_Window.GetHandle(), "Success!", "LoadOBJ", 0u );
+		}
+		else
+		{
+			MessageBoxA( m_Window.GetHandle(), "Failed!", "LoadOBJ", 0u );
+		}
+
+	// CREATE TEST MESH:
 
 		std::vector<dx9::Vertex> vertices;
 
@@ -93,9 +108,9 @@
 
 		pTextures.resize( 1u );
 
-	//	D3DXCreateTextureFromFileA( m_Window.GetRenderSystem().GetDevice(), "C:/TemporaryStorage/Geass_256x256.png", &pTextures[0] );
-	//
-	//	mesh = m_Window.GetRenderSystem().CreateMesh( vertices, indices, materials, pTextures );
+		D3DXCreateTextureFromFileA( m_Window.GetRenderSystem().GetDevice(), "D:/Documents and files/Downloads/ART/psycho-pass-we-heart-it.jpg", &pTextures[0] );
+	
+		mesh = m_Window.GetRenderSystem().CreateMesh( vertices, indices, materials, pTextures );
 
 	//	m_Window.GetRenderSystem().CreateVertexBuffer();
 	//	m_Window.GetRenderSystem().CreateIndexBuffer();
