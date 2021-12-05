@@ -21,7 +21,7 @@
 
 		bool8 result = false;
 
-		result = loader.LoadOBJ( "D:/Models/minecraft-castle/source/castle.obj" );
+		result = loader.LoadOBJ( "D:/Models/ganesha-obj/source/ganesha.obj" );
 
 		if ( result )
 		{

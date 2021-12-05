@@ -1,7 +1,7 @@
 #include "../PrecompiledHeaders/stdafx.h"
 #include "OBJLoader.h"
 
-namespace dx9
+namespace obj
 {
 // Constructors and Destructor:
 
@@ -16,6 +16,13 @@ namespace dx9
 
 
 // Functions:
+
+	bool8 OBJLoader::LoadOBJ(const char* filePath, uint32 capacity)
+	{
+		// To do...
+
+		return true;
+	}
 
 	bool8 OBJLoader::LoadOBJ(const char* filePath)
 	{
@@ -33,7 +40,7 @@ namespace dx9
 
 	// Vertices:
 
-		std::vector<Vertex> vertices;
+		std::vector<dx9::Vertex> vertices;
 
 	// Strings for file parsing:
 
@@ -72,7 +79,7 @@ namespace dx9
 
 				if ( prefix == "#" ) // Comment
 				{
-
+					
 				}
 				else if ( prefix == "o" ) // Object name
 				{
@@ -149,22 +156,22 @@ namespace dx9
 					}
 				}
 
-			// Build final Vertex vector:
-
-				vertices.resize( vertex_position_indices.size(), Vertex() );
-
-				for ( size_t i = 0u; i < vertices.size(); i++ )
-				{
-					vertices[i].position     = vertex_positions[vertex_position_indices[i] - 1u];
-					vertices[i].textureCoord = vertex_texCoords[vertex_texCoord_indices[i] - 1u];
-					vertices[i].normal       = vertex_normals[vertex_normal_indices[i] - 1u];
-				}
-
 			// DEBUG:
 
 				NumVertexPos       = vertex_positions.size();
 				NumVertexTexCoords = vertex_texCoords.size();
 				NumVertexNormals   = vertex_normals.size();
+			}
+
+		// Build final Vertex vector:
+
+			vertices.resize( vertex_position_indices.size(), dx9::Vertex() );
+
+			for ( size_t i = 0u; i < vertices.size(); i++ )
+			{
+				vertices[i].position     = vertex_positions[vertex_position_indices[i] - 1u];
+				vertices[i].textureCoord = vertex_texCoords[vertex_texCoord_indices[i] - 1u];
+				vertices[i].normal       = vertex_normals[vertex_normal_indices[i] - 1u];
 			}
 		}
 		else
