@@ -4,7 +4,7 @@
 #include "../RenderSystem/D3DUtility.h"
 #include "../RenderSystem/Vertex.h"
 
-namespace 
+namespace dx9
 {
 	class MeshLoader
 	{

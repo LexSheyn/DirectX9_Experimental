@@ -25,6 +25,7 @@ namespace dx9
 			                   const std::vector<uint32>& iIndices,
 			                         std::vector<D3DMATERIAL9>& iMaterials, 
 			                         std::vector<IDirect3DTexture9*>& iPtrTextures );
+		ID3DXMesh* CreateMesh( Vertex iVertices[], const uint32& iVerticesAmount, uint32 iIndices[], const uint32& iIndicesAmount );
 
 		// TEST
 		void CreateMaterial();

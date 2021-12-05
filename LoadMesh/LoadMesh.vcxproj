@@ -211,6 +211,9 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../PrecompiledHeaders/stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../PrecompiledHeaders/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\OBJLoader\Normal.cpp" />
+    <ClCompile Include="src\OBJLoader\TextureCoord.cpp" />
+    <ClCompile Include="src\OBJLoader\Position.cpp" />
     <ClCompile Include="src\OBJLoader\OBJLoader.cpp" />
     <ClCompile Include="src\MeshLoader\MeshLoader.cpp" />
     <ClCompile Include="src\PrecompiledHeaders\stdafx.cpp">
@@ -238,6 +241,9 @@
     <ClInclude Include="src\InputDevices\Mouse\Interface\IMouse.h" />
     <ClInclude Include="src\InputDevices\Mouse\Mouse.h" />
     <ClInclude Include="src\InputDevices\Mouse\MouseEvent.h" />
+    <ClInclude Include="src\OBJLoader\Normal.h" />
+    <ClInclude Include="src\OBJLoader\TextureCoord.h" />
+    <ClInclude Include="src\OBJLoader\Position.h" />
     <ClInclude Include="src\OBJLoader\OBJLoader.h" />
     <ClInclude Include="src\MeshLoader\MeshLoader.h" />
     <ClInclude Include="src\PrecompiledHeaders\stdafx.h" />

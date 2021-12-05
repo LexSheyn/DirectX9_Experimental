@@ -12,14 +12,212 @@ namespace obj
 
 	OBJLoader::~OBJLoader()
 	{
+		this->ClearBuffers();
 	}
 
 
 // Functions:
 
-	bool8 OBJLoader::LoadOBJ(const char* filePath, uint32 capacity)
+	bool8 OBJLoader::LoadOBJ(const char* filePath, const uint32 capacity)
 	{
-		// To do...
+	// Clear buffers before allocationg new memory:
+
+		this->ClearBuffers();
+
+	// Create dynamic arrays for temporary store .obj data:
+
+		Position* positions = new Position[capacity];
+		uint32    positions_counter = 0u;
+
+		TextureCoord* texCoords = new TextureCoord[capacity];
+		uint32        texCoords_counter = 0u;
+
+		Normal* normals = new Normal[capacity];
+		uint32  normals_counter = 0u;
+
+
+		uint32* indices_position = new uint32[capacity];
+		uint32  indices_position_counter = 0u;
+
+		uint32* indices_texCoord = new uint32[capacity];
+		uint32  indices_texCoord_counter = 0u;
+
+		uint32* indices_normal   = new uint32[capacity];
+		uint32  indices_normal_counter = 0u;
+
+		uint32 temp_index = 0u;
+
+	// Create strings and input file stream for file parsing:
+
+		std::istringstream inStrStream;
+
+		std::string line;
+		std::string prefix;
+
+		std::ifstream inFileStream;
+
+		inFileStream.open( filePath );
+
+		if ( inFileStream.is_open() )
+		{
+		// Read one line at a time:
+
+			while ( std::getline( inFileStream, line ) )
+			{
+			// Get prefix of the line:
+
+				inStrStream.clear();
+				inStrStream.str( line );
+				inStrStream >> prefix;
+
+			// Disable notification about possible buffer overflow, this will never happen with x32 bit application:
+
+				#pragma warning( push ) // C6835
+				#pragma warning( disable : 6385)
+
+				if ( prefix == "#" ) // Comment
+				{
+					
+				}
+				else if ( prefix == "o" ) // Object name
+				{
+
+				}
+				else if ( prefix == "s" ) // Smoothing group
+				{
+
+				}
+				else if ( prefix == "usemtl" ) // Material name
+				{
+
+				}
+				else if ( prefix == "v" ) // Geometric Vertex
+				{
+					inStrStream >> positions[positions_counter].x >> positions[positions_counter].y >> positions[positions_counter].z;
+
+					positions_counter++;
+				}
+				else if ( prefix == "vt" ) // Texture Vertex
+				{
+					inStrStream >> texCoords[texCoords_counter].u >> texCoords[texCoords_counter].v;
+
+					texCoords_counter++;
+				}
+				else if ( prefix == "vn" ) // Vertex Normal
+				{
+					inStrStream >> normals[normals_counter].x >> normals[normals_counter].y >> normals[normals_counter].z;
+
+					normals_counter++;
+				}
+				else if ( prefix == "f" ) // Face
+				{
+					uint32 counter = 0u;
+
+				// Disable notification about possible buffer overflow.
+
+					#pragma warning( push ) // C6836
+					#pragma warning( disable : 6386)
+
+					while ( inStrStream >> temp_index )
+					{
+					// Push indices into correct vectore:
+
+						if ( counter == 0u )
+						{
+							indices_position[indices_position_counter] = temp_index;
+
+							indices_position_counter++;
+						}
+						else if ( counter == 1u )
+						{
+							indices_texCoord[indices_texCoord_counter] = temp_index;
+
+							indices_texCoord_counter++;
+						}
+						else if ( counter == 2u )
+						{
+							indices_normal[indices_normal_counter] = temp_index;
+
+							indices_normal_counter++;
+						}
+
+					// Handle characters:
+
+						if ( inStrStream.peek() == '/' )
+						{
+							counter++;
+
+							inStrStream.ignore( 1, '/' );
+						}
+						else if (inStrStream.peek() == ' ' )
+						{
+							counter++;
+
+							inStrStream.ignore( 1, ' ' );
+						}
+
+					// Reset counter:
+
+						if ( counter > 2u )
+						{
+							counter = 0u;
+						}
+					}
+
+					#pragma warning( pop ) // C6386
+				}
+
+				#pragma warning( pop ) // C6385
+			}
+
+		// Build final Vertex array:
+
+			m_Vertices = new dx9::Vertex[indices_position_counter];
+
+			m_VerticesAmount = indices_position_counter;
+
+			m_Indices  = new uint32[indices_position_counter];
+
+			m_IndicesAmount = indices_position_counter;
+
+			for ( uint32 i = 0u; i < indices_position_counter; i++ )
+			{
+			// Position:
+
+				m_Vertices[i].position.x = positions[indices_position[i] - 1u].x;
+				m_Vertices[i].position.y = positions[indices_position[i] - 1u].y;
+				m_Vertices[i].position.z = positions[indices_position[i] - 1u].z;
+
+			// Texture coordinates:
+
+				m_Vertices[i].textureCoord.x = texCoords[indices_texCoord[i] - 1u].u;
+				m_Vertices[i].textureCoord.y = texCoords[indices_texCoord[i] - 1u].v;
+
+			// Normals:
+
+				m_Vertices[i].normal.x = normals[indices_normal[i] - 1u].x;
+				m_Vertices[i].normal.y = normals[indices_normal[i] - 1u].y;
+				m_Vertices[i].normal.z = normals[indices_normal[i] - 1u].z;
+
+			// Indices:
+
+				m_Indices[i] = indices_position[i];
+			}
+		}
+		else
+		{
+			return false;
+		}
+
+	// Delete all temporary data:
+
+		delete[] positions;
+		delete[] texCoords;
+		delete[] normals;
+
+		delete[] indices_position;
+		delete[] indices_texCoord;
+		delete[] indices_normal;
 
 		return true;
 	}
@@ -55,6 +253,7 @@ namespace obj
 
 		std::ifstream inFile;
 
+		// TEST
 		size_t NumVertexPos = 0u;
 		size_t NumVertexTexCoords = 0u;
 		size_t NumVertexNormals = 0u;
@@ -180,6 +379,40 @@ namespace obj
 		}
 
 		return true;
+	}
+
+
+// Private Functions:
+
+	void OBJLoader::ClearBuffers()
+	{
+	// Vertices:
+
+		if ( m_Vertices )
+		{
+			delete[] m_Vertices;
+
+			m_Vertices = nullptr;
+		}
+
+		if ( m_VerticesAmount != 0u )
+		{
+			m_VerticesAmount = 0u;
+		}
+
+	// Indices:
+
+		if ( m_Indices )
+		{
+			delete[] m_Indices;
+
+			m_Indices = nullptr;
+		}
+
+		if ( m_Indices != 0u )
+		{
+			m_Indices = 0u;
+		}
 	}
 
 }

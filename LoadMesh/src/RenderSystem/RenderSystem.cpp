@@ -346,6 +346,104 @@ namespace dx9
 		return mesh;
 	}
 
+	ID3DXMesh* RenderSystem::CreateMesh( Vertex iVertices[], const uint32& iVerticesAmount, uint32 iIndices[], const uint32& iIndicesAmount )
+	{
+	// Create temporary mesh:
+
+		ID3DXMesh* mesh = nullptr;
+		
+		DWORD numFaces = iIndicesAmount / 3u;
+
+		DWORD numVertices = iVerticesAmount;
+
+		HRESULT result = D3DXCreateMeshFVF( numFaces, numVertices, D3DXMESH_MANAGED | D3DXMESH_32BIT, Vertex::FVF, m_pDevice, &mesh);
+
+		if ( FAILED(result) )
+		{
+			MessageBoxA( m_phWnd, "Failed to create mesh with D3DXCreateMeshFVF(...)", "ERROR:RendeSystem::CreateMesh", 0u );
+		
+			return nullptr;
+		}
+
+	// Fill Vertices:
+		
+		void* vertices = nullptr;
+
+		mesh->LockVertexBuffer( 0u, (void**)&vertices );
+
+		memcpy_s( vertices, sizeof(iVertices), iVertices, sizeof(iVertices) );
+
+		mesh->UnlockVertexBuffer();
+
+	// Fill Indices:
+
+		void* indices = nullptr;
+
+		mesh->LockIndexBuffer( 0, (void**)&indices );
+
+		memcpy_s( indices, sizeof(iIndices), iIndices, sizeof(iIndices) );
+
+		mesh->UnlockIndexBuffer();
+
+	// FIll Attribute buffer:
+
+		DWORD* attribute_buffer = nullptr;
+
+		mesh->LockAttributeBuffer( 0, &attribute_buffer );
+
+		// Group a:
+		for ( uint32 a = 0u; a < numFaces; a++ )
+		{
+			attribute_buffer[a] = 0u;
+		}
+
+		mesh->UnlockAttributeBuffer();
+
+	// Optimize Mesh to generate an attrubute table:
+
+		std::vector<DWORD> adjacency_buffer(mesh->GetNumFaces() * 3u );
+
+		mesh->GenerateAdjacency( 0.0f, &adjacency_buffer[0] );
+
+		result = mesh->OptimizeInplace( D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_COMPACT | D3DXMESHOPT_VERTEXCACHE, &adjacency_buffer[0], nullptr, nullptr, nullptr );
+
+		if (FAILED(result))
+		{
+			MessageBoxA( m_phWnd, "Failed to optimize mesh with OptimizeInplace(...)", "ERROR:RendeSystem::CreateMesh", 0u );
+	
+			return nullptr;
+		}
+
+	// Log the Mesh data to file:
+
+	//	m_OutFile.open( "C:/TemporaryStorage/MeshLog.txt" );
+	//
+	//	this->LogVertices( m_OutFile, mesh);
+	//	this->LogIndices( m_OutFile, mesh);
+	//	this->LogAttributeBuffer( m_OutFile, mesh);
+	//	this->LogAdjacencyBuffer( m_OutFile, mesh);
+	//	this->LogAttributeTable( m_OutFile, mesh);
+	//
+	//	m_OutFile.close();
+
+	// Load Textures:
+
+	//	m_pMeshTextures[0] = iPtrTextures[0];
+
+	// Texture filtering:
+
+	//	m_pDevice->SetSamplerState( 0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR );
+	//	m_pDevice->SetSamplerState( 0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR );
+	//	m_pDevice->SetSamplerState( 0, D3DSAMP_MIPFILTER, D3DTEXF_POINT  );
+
+	// Texture addressing:
+
+	//	m_pDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_MIRROR);
+	//	m_pDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_MIRROR);
+
+		return mesh;
+	}
+
 	void RenderSystem::CreateMaterial()
 	{
 		m_Material.Ambient  = D3DXCOLOR( 1.0f, 1.0f, 1.0f, 1.0f );
@@ -444,7 +542,9 @@ namespace dx9
 		D3DXMATRIX Scaling;
 		D3DXMATRIX Translation;
 
-		D3DXMatrixScaling( &Scaling, 1.0f, 1.0f, 1.0f );
+		static float32 scale = 1.0f;
+
+		D3DXMatrixScaling( &Scaling, scale, scale, scale );
 
 		static float32 tx = 0.0f;
 		static float32 ty = 0.0f;
@@ -493,6 +593,15 @@ namespace dx9
 			this->SetView( -dt );
 		}
 
+		if (::GetAsyncKeyState('R') & 0x8000f)
+		{
+			scale -= dt;
+		}
+		else if (::GetAsyncKeyState('T') & 0x8000f)
+		{
+			scale += dt;
+		}
+
 		if (::GetAsyncKeyState('W') & 0x8000f)
 		{
 			ty += dt;
@@ -522,16 +631,16 @@ namespace dx9
 		m_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, Color::DarkGrey, 1.0f, 0 );
 		m_pDevice->BeginScene();
 	
-		for ( size_t i = 0u; i < std::size( m_pMeshTextures ); i++ )
-		{
-			m_pDevice->SetTexture( 0, m_pMeshTextures[i] );
-			
-			mesh->DrawSubset( i );
-		}
-		
-		m_pDevice->SetTexture( 0, m_pMeshTextures[0] );
+	//	for ( size_t i = 0u; i < std::size( m_pMeshTextures ); i++ )
+	//	{
+	//		m_pDevice->SetTexture( 0, m_pMeshTextures[i] );
+	//		
+	//		mesh->DrawSubset( i );
+	//	}
+	//	
+	//	m_pDevice->SetTexture( 0, m_pMeshTextures[0] );
 
-	//	mesh->DrawSubset( 0 );
+		mesh->DrawSubset( 0 );
 
 		m_pDevice->EndScene();
 		m_pDevice->Present( nullptr, nullptr, nullptr, nullptr );
