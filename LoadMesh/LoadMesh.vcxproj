@@ -97,13 +97,13 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../PrecompiledHeaders/stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Linking\x32\DirectX9\Include;$(SolutionDir)Linking\x32\Assimp\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Linking\x32\DirectX9\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Linking\x32\DirectX9\Lib\d;$(SolutionDir)Linking\x32\Assimp\Lib\d;%(AdditionalDependencies)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d9.lib;d3dx9d.lib;%(AdditionalDependencies);assimp-vc142-mtd.lib;bz2d.lib;Irrlicht.lib;jpeg.lib;kubazip.lib;libpng16d.lib;minizip.lib;poly2tri.lib;polyclipping.lib;turbojpeg.lib;zlibd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Linking\x32\DirectX9\Lib\d;%(AdditionalDependencies)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d9.lib;d3dx9d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -117,15 +117,15 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../PrecompiledHeaders/stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Linking\x32\DirectX9\Include;$(SolutionDir)Linking\x32\Assimp\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Linking\x32\DirectX9\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Linking\x32\DirectX9\Lib\r;$(SolutionDir)Linking\x32\Assimp\Lib\r;%(AdditionalDependencies)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies);assimp-vc142-mt.lib;bz2.lib;Irrlicht.lib;jpeg.lib;kubazip.lib;libpng16.lib;minizip.lib;poly2tri.lib;polyclipping.lib;turbojpeg.lib;zlib.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Linking\x32\DirectX9\Lib\r;%(AdditionalDependencies)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -215,7 +215,6 @@
     <ClCompile Include="src\OBJLoader\TextureCoord.cpp" />
     <ClCompile Include="src\OBJLoader\Position.cpp" />
     <ClCompile Include="src\OBJLoader\OBJLoader.cpp" />
-    <ClCompile Include="src\MeshLoader\MeshLoader.cpp" />
     <ClCompile Include="src\PrecompiledHeaders\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -245,7 +244,6 @@
     <ClInclude Include="src\OBJLoader\TextureCoord.h" />
     <ClInclude Include="src\OBJLoader\Position.h" />
     <ClInclude Include="src\OBJLoader\OBJLoader.h" />
-    <ClInclude Include="src\MeshLoader\MeshLoader.h" />
     <ClInclude Include="src\PrecompiledHeaders\stdafx.h" />
     <ClInclude Include="src\RenderSystem\Color.h" />
     <ClInclude Include="src\RenderSystem\D3DUtility.h" />

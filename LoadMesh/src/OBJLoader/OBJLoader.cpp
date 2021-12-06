@@ -224,6 +224,11 @@ namespace obj
 
 	bool8 OBJLoader::LoadOBJ(const char* filePath)
 	{
+	// Test:
+
+		m_TestVertices.clear();
+		m_TestIndices.clear();
+
 	// Vertex positions:
 
 		std::vector<D3DXVECTOR3> vertex_positions;
@@ -235,10 +240,6 @@ namespace obj
 		std::vector<uint32> vertex_position_indices;
 		std::vector<uint32> vertex_texCoord_indices;
 		std::vector<uint32> vertex_normal_indices;
-
-	// Vertices:
-
-		std::vector<dx9::Vertex> vertices;
 
 	// Strings for file parsing:
 
@@ -364,14 +365,23 @@ namespace obj
 
 		// Build final Vertex vector:
 
-			vertices.resize( vertex_position_indices.size(), dx9::Vertex() );
+			m_TestVertices.resize(vertex_position_indices.size(), dx9::Vertex() );
 
-			for ( size_t i = 0u; i < vertices.size(); i++ )
+			for ( size_t i = 0u; i < m_TestVertices.size(); i++ )
 			{
-				vertices[i].position     = vertex_positions[vertex_position_indices[i] - 1u];
-				vertices[i].textureCoord = vertex_texCoords[vertex_texCoord_indices[i] - 1u];
-				vertices[i].normal       = vertex_normals[vertex_normal_indices[i] - 1u];
+				m_TestVertices[i].position     = vertex_positions[vertex_position_indices[i] - 1u];
+				m_TestVertices[i].textureCoord = vertex_texCoords[vertex_texCoord_indices[i] - 1u];
+				m_TestVertices[i].normal       = vertex_normals[vertex_normal_indices[i] - 1u];
 			}
+
+		// Build final index vector:
+
+			m_TestIndices.resize(vertex_position_indices.size(), 0u);
+
+			for ( size_t i = 0u; i < m_TestIndices.size(); i++ )
+			{
+				m_TestIndices[i] = vertex_position_indices[i] - 1u;
+			}			
 		}
 		else
 		{

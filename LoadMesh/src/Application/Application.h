@@ -3,7 +3,6 @@
 
 #include "../Window/Window.h"
 #include "../Timer/Timer.h"
-#include "../MeshLoader/MeshLoader.h"
 #include "../OBJLoader/OBJLoader.h"
 
 class Application
@@ -30,8 +29,6 @@ private:
 
 	dx9::Window m_Window;
 	dx9::Timer  m_Timer;
-
-	dx9::MeshLoader m_MeshLoader;
 
 // TEST:
 	ID3DXMesh* mesh = nullptr;

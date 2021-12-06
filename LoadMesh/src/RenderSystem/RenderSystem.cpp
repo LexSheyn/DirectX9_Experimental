@@ -637,8 +637,8 @@ namespace dx9
 	//		
 	//		mesh->DrawSubset( i );
 	//	}
-	//	
-	//	m_pDevice->SetTexture( 0, m_pMeshTextures[0] );
+		
+		m_pDevice->SetTexture( 0, m_pMeshTextures[0] );
 
 		mesh->DrawSubset( 0 );
 

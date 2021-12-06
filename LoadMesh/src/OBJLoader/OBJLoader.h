@@ -44,6 +44,11 @@ namespace obj
 
 		inline const uint32& GetIndicesAmount()  const { return m_IndicesAmount; }
 
+		// Test
+		inline std::vector<dx9::Vertex>& GetTestVertices() { return m_TestVertices; }
+
+		inline std::vector<uint32>&      GetTestIndices()  { return m_TestIndices; }
+
 	private:
 
 	// Private Functions:
@@ -61,6 +66,12 @@ namespace obj
 		uint32 m_VerticesAmount = 0u;
 		
 		uint32 m_IndicesAmount  = 0u;
+
+	// Test buffers:
+
+		std::vector<dx9::Vertex> m_TestVertices;
+
+		std::vector<uint32> m_TestIndices;
 	};
 }
 

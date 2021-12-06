@@ -8,21 +8,13 @@
 	{
 	// Loading Mesh:
 
-	//	m_MeshLoader.SetOutputWindow( m_Window.GetHandle() );
-	//	m_MeshLoader.SetD3DDevice( m_Window.GetRenderSystem().GetDevice() );
-	//
-	//	m_MeshLoader.LoadMesh( "D:/Models/robo-obj-pose4/source/robot.obj" );
-	//
-	//	ID3DXMesh* test_mesh = m_MeshLoader.GetMeshes().at( 0 );
-	//
-	//	mesh = test_mesh;
-
 		obj::OBJLoader loader;
 
 		bool8 result = false;
 
 	//	result = loader.LoadOBJ( "D:/Models/ganesha-obj/source/ganesha.obj" );
-	//	result = loader.LoadOBJ( "D:/Models/robo-obj-pose4/source/robot.obj", 20000u );
+	//	result = loader.LoadOBJ( "D:/Models/cube/untitled.obj", 100u );
+		result = loader.LoadOBJ( "D:/Models/cube/untitled.obj" );
 
 	//	if ( result )
 	//	{
@@ -111,7 +103,8 @@
 
 		D3DXCreateTextureFromFileA( m_Window.GetRenderSystem().GetDevice(), "D:/Documents and files/Downloads/ART/psycho-pass-we-heart-it.jpg", &pTextures[0] );
 	
-		mesh = m_Window.GetRenderSystem().CreateMesh( vertices, indices, materials, pTextures );
+	//	mesh = m_Window.GetRenderSystem().CreateMesh( vertices, indices, materials, pTextures );
+		mesh = m_Window.GetRenderSystem().CreateMesh( loader.GetTestVertices(), loader.GetTestIndices(), materials, pTextures );
 	//	mesh = m_Window.GetRenderSystem().CreateMesh( loader.GetVertices(), loader.GetVerticesAmount(), loader.GetIndices(), loader.GetIndicesAmount() );
 
 	//	m_Window.GetRenderSystem().CreateVertexBuffer();
