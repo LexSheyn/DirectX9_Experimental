@@ -40,4 +40,7 @@ typedef double             float64;
 #include <d3d9.h>
 #include <d3dx9.h>
 
+// Autodesk FBX SDK:
+#include <fbxsdk.h>
+
 #endif // STDAFX_H

@@ -93,7 +93,13 @@ namespace dx9
 
 		D3DPRESENT_PARAMETERS m_PresentParameters = {};
 
+	// Disable unscoped enum warning:
+	#pragma warning( push ) // C26812
+	#pragma warning( disable : 26812)
+
 		D3DDEVTYPE m_DeviceType = D3DDEVTYPE_HAL;
+
+	#pragma warning( pop ) // C26812
 
 		D3DVIEWPORT9 m_Viewport = {};
 
