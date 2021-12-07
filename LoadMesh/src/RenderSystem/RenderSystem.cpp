@@ -254,9 +254,9 @@ namespace dx9
 
 		ID3DXMesh* mesh = nullptr;
 		
-		DWORD numFaces = iIndices.size() / 3u;
+		DWORD numFaces = static_cast<DWORD>(iIndices.size() / 3u);
 
-		DWORD numVertices = iVertices.size();
+		DWORD numVertices = static_cast<DWORD>(iVertices.size());
 
 		HRESULT result = D3DXCreateMeshFVF( numFaces, numVertices, D3DXMESH_MANAGED | D3DXMESH_32BIT, Vertex::FVF, m_pDevice, &mesh);
 
