@@ -25,53 +25,59 @@ namespace obj
 	// Functions:
 
 		/// <summary>
-		/// Load Vertex positions, texture coordinates and normals from .obj file to the buffers.
+		/// Load Vertex positions, texture coordinates, normals and faces amount from .obj file to the buffer.
 		/// </summary>
-		/// <param name="filePath"> - Full path to the .obj file.</param>
-		/// <param name="capacity"> - Size of vertex array to store the vertices.</param>
-		/// <returns>true if file has been opened successfully, otherwise returns false.</returns>
-		bool8 LoadOBJ( const char* filePath, const uint32 capacity );
+		/// <param name="filePath">
+		/// - Full path to the .obj file.
+		/// </param>
+		/// <param name="findMaterials">
+		/// - Look for all materials in the same directory and load all materials found.
+		/// </param>
+		/// <returns>
+		/// TRUE if file has been opened successfully, otherwise returns FALSE.
+		/// </returns>
+		bool8 LoadOBJ( const char* pathToOBJ, const bool findMaterials = false );
 
-		bool8 LoadOBJ( const char* filePath );
+		/// <summary>
+		/// Load Material from .mtl file to the buffer.
+		/// </summary>
+		/// <param name="filePath">
+		/// - Full path to the .mtl file.
+		/// </param>
+		/// <returns>
+		/// TRUE if file has been opened successfully, otherwise returns FALSE.
+		/// </returns>
+		bool8 LoadMaterial( const char* pathToMTL );
+
+		void ClearGeometryBuffer();
+
+		void ClearMaterialsBuffer();
 
 	// Accessors:
 
-		inline dx9::Vertex* GetVertices() { return m_Vertices; }
+		inline const uint32&              GetVerticesAmount() const { return m_VerticesAmount; }
 
-		inline uint32*      GetIndices()  { return m_Indices; };
+		inline const uint32&              GetFacesAmount()    const { return m_FacesAmount; }
 
-		inline const uint32& GetVerticesAmount() const { return m_VerticesAmount; }
+		inline std::vector<dx9::Vertex>&  GetVertices()             { return m_Vertices; }
 
-		inline const uint32& GetIndicesAmount()  const { return m_IndicesAmount; }
-
-		// Test
-		inline std::vector<dx9::Vertex>& GetTestVertices() { return m_TestVertices; }
-
-		inline std::vector<uint32>&      GetTestIndices()  { return m_TestIndices; }
+		inline std::vector<D3DMATERIAL9>& GetMaterials()            { return m_Materials; }
 
 	private:
 
-	// Private Functions:
+	// Vertices and Faces loaded amount:
 
-		void ClearBuffers();
+		uint32 m_VerticesAmount  = 0u;
+
+		uint32 m_FacesAmount     = 0u;
+
+		uint32 m_MaterialsAmount = 0u;
 
 	// Buffers:
 
-		dx9::Vertex* m_Vertices = nullptr;
+		std::vector<dx9::Vertex>  m_Vertices;
 
-		uint32*      m_Indices  = nullptr;
-
-	// Vertices and Indices loaded amount:
-
-		uint32 m_VerticesAmount = 0u;
-		
-		uint32 m_IndicesAmount  = 0u;
-
-	// Test buffers:
-
-		std::vector<dx9::Vertex> m_TestVertices;
-
-		std::vector<uint32> m_TestIndices;
+		std::vector<D3DMATERIAL9> m_Materials;
 	};
 }
 

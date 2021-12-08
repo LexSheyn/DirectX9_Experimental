@@ -84,6 +84,9 @@
     <ClCompile Include="src\FBXLoader\FBXVector3F.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\RenderSystem\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Window\Window.h">
@@ -150,6 +153,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\FBXLoader\FBXVector3F.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderSystem\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

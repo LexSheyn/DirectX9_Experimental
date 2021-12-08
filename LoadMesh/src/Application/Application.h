@@ -31,7 +31,12 @@ private:
 	dx9::Timer  m_Timer;
 
 // TEST:
+
 	ID3DXMesh* mesh = nullptr;
+
+	dx9::Mesh TestMesh;
+
+	obj::OBJLoader m_OBJLoader;
 };
 
 #endif // APPLICATION_H

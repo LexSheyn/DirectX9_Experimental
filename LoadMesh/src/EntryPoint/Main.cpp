@@ -2,9 +2,6 @@
 
 #include "../Application/Application.h"
 
-// Test OpenCASCADE:
-#include <BRepPrimAPI_MakeBox.hxx>
-
 int32 __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR pCmdLine, _In_ int32 nCmdShow)
 {
 // Create Console:
@@ -27,25 +24,21 @@ int32 __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 
 // Create Window:
 
-	try
-	{
-		return Application().Run();
-	}
-	catch (const std::exception& exception)
-	{
-		MessageBoxA(nullptr, exception.what(), "Standatd Exception", MB_OK | MB_ICONEXCLAMATION);
-	}
-	catch (...)
-	{
-		MessageBoxA(nullptr, "No details available", "Unknown Exception", MB_OK | MB_ICONEXCLAMATION);
-	}
-	return -1;
+	Application().Run();
 
-// Test OpenCASCADE:
+//	try
+//	{
+//		return Application().Run();
+//	}
+//	catch (const std::exception& exception)
+//	{
+//		MessageBoxA(nullptr, exception.what(), "Standatd Exception", MB_OK | MB_ICONEXCLAMATION);
+//	}
+//	catch (...)
+//	{
+//		MessageBoxA(nullptr, "No details available", "Unknown Exception", MB_OK | MB_ICONEXCLAMATION);
+//	}
+//	return -1;
 
-//  BRepPrimAPI_MakeBox makeBox( 1.0, 2.0, 3.0 );
-//  
-//  const TopoDS_Shape& shape = makeBox.Shape();
-//  
-//  return 0;
+	return 0;
 }

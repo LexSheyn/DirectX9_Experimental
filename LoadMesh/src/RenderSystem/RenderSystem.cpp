@@ -20,7 +20,8 @@ namespace dx9
 
 		if ( m_DeviceCapabilities.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT )
 		{
-			m_VertexProcessing = D3DCREATE_HARDWARE_VERTEXPROCESSING;
+		//	m_VertexProcessing = D3DCREATE_HARDWARE_VERTEXPROCESSING;
+			m_VertexProcessing = D3DCREATE_SOFTWARE_VERTEXPROCESSING;
 		}
 		else
 		{
@@ -77,14 +78,14 @@ namespace dx9
 
 		dx9::Release( m_pDevice );
 
-		dx9::Release( m_pVertexBuffer );
+	//	dx9::Release( m_pVertexBuffer );
+	//
+	//	dx9::Release( m_pIndexBuffer );
 
-		dx9::Release( m_pIndexBuffer );
-
-		for ( auto* texture : m_pMeshTextures )
-		{
-			dx9::Release( texture );
-		}
+	//	for ( auto* texture : m_pMeshTextures )
+	//	{
+	//		dx9::Release( texture );
+	//	}
 	}
 
 
@@ -207,7 +208,7 @@ namespace dx9
 
 	// Optimize Mesh to generate an attrubute table:
 
-		std::vector<DWORD> adjacency_buffer(mesh->GetNumFaces() * 3u );
+		std::vector<DWORD> adjacency_buffer( static_cast<size_t>( mesh->GetNumFaces() ) * 3u );
 
 		mesh->GenerateAdjacency( 0.0f, &adjacency_buffer[0] );
 
@@ -222,15 +223,15 @@ namespace dx9
 
 	// Log the Mesh data to file:
 
-		m_OutFile.open( "C:/TemporaryStorage/MeshLog.txt" );
-
-		this->LogVertices( m_OutFile, mesh);
-		this->LogIndices( m_OutFile, mesh);
-		this->LogAttributeBuffer( m_OutFile, mesh);
-		this->LogAdjacencyBuffer( m_OutFile, mesh);
-		this->LogAttributeTable( m_OutFile, mesh);
-
-		m_OutFile.close();
+	//	m_OutFile.open( "C:/TemporaryStorage/MeshLog.txt" );
+	//
+	//	this->LogVertices( m_OutFile, mesh);
+	//	this->LogIndices( m_OutFile, mesh);
+	//	this->LogAttributeBuffer( m_OutFile, mesh);
+	//	this->LogAdjacencyBuffer( m_OutFile, mesh);
+	//	this->LogAttributeTable( m_OutFile, mesh);
+	//
+	//	m_OutFile.close();
 
 	// Load Textures and set filters:
 
@@ -303,7 +304,7 @@ namespace dx9
 
 	// Optimize Mesh to generate an attrubute table:
 
-		std::vector<DWORD> adjacency_buffer(mesh->GetNumFaces() * 3u );
+		std::vector<DWORD> adjacency_buffer( static_cast<size_t>( mesh->GetNumFaces() ) * 3u );
 
 		mesh->GenerateAdjacency( 0.0f, &adjacency_buffer[0] );
 
@@ -346,104 +347,6 @@ namespace dx9
 		return mesh;
 	}
 
-	ID3DXMesh* RenderSystem::CreateMesh( Vertex iVertices[], const uint32& iVerticesAmount, uint32 iIndices[], const uint32& iIndicesAmount )
-	{
-	// Create temporary mesh:
-
-		ID3DXMesh* mesh = nullptr;
-		
-		DWORD numFaces = iIndicesAmount / 3u;
-
-		DWORD numVertices = iVerticesAmount;
-
-		HRESULT result = D3DXCreateMeshFVF( numFaces, numVertices, D3DXMESH_MANAGED | D3DXMESH_32BIT, Vertex::FVF, m_pDevice, &mesh);
-
-		if ( FAILED(result) )
-		{
-			MessageBoxA( m_phWnd, "Failed to create mesh with D3DXCreateMeshFVF(...)", "ERROR:RendeSystem::CreateMesh", 0u );
-		
-			return nullptr;
-		}
-
-	// Fill Vertices:
-		
-		void* vertices = nullptr;
-
-		mesh->LockVertexBuffer( 0u, (void**)&vertices );
-
-		memcpy_s( vertices, sizeof(iVertices), iVertices, sizeof(iVertices) );
-
-		mesh->UnlockVertexBuffer();
-
-	// Fill Indices:
-
-		void* indices = nullptr;
-
-		mesh->LockIndexBuffer( 0, (void**)&indices );
-
-		memcpy_s( indices, sizeof(iIndices), iIndices, sizeof(iIndices) );
-
-		mesh->UnlockIndexBuffer();
-
-	// FIll Attribute buffer:
-
-		DWORD* attribute_buffer = nullptr;
-
-		mesh->LockAttributeBuffer( 0, &attribute_buffer );
-
-		// Group a:
-		for ( uint32 a = 0u; a < numFaces; a++ )
-		{
-			attribute_buffer[a] = 0u;
-		}
-
-		mesh->UnlockAttributeBuffer();
-
-	// Optimize Mesh to generate an attrubute table:
-
-		std::vector<DWORD> adjacency_buffer(mesh->GetNumFaces() * 3u );
-
-		mesh->GenerateAdjacency( 0.0f, &adjacency_buffer[0] );
-
-		result = mesh->OptimizeInplace( D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_COMPACT | D3DXMESHOPT_VERTEXCACHE, &adjacency_buffer[0], nullptr, nullptr, nullptr );
-
-		if (FAILED(result))
-		{
-			MessageBoxA( m_phWnd, "Failed to optimize mesh with OptimizeInplace(...)", "ERROR:RendeSystem::CreateMesh", 0u );
-	
-			return nullptr;
-		}
-
-	// Log the Mesh data to file:
-
-	//	m_OutFile.open( "C:/TemporaryStorage/MeshLog.txt" );
-	//
-	//	this->LogVertices( m_OutFile, mesh);
-	//	this->LogIndices( m_OutFile, mesh);
-	//	this->LogAttributeBuffer( m_OutFile, mesh);
-	//	this->LogAdjacencyBuffer( m_OutFile, mesh);
-	//	this->LogAttributeTable( m_OutFile, mesh);
-	//
-	//	m_OutFile.close();
-
-	// Load Textures:
-
-	//	m_pMeshTextures[0] = iPtrTextures[0];
-
-	// Texture filtering:
-
-	//	m_pDevice->SetSamplerState( 0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR );
-	//	m_pDevice->SetSamplerState( 0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR );
-	//	m_pDevice->SetSamplerState( 0, D3DSAMP_MIPFILTER, D3DTEXF_POINT  );
-
-	// Texture addressing:
-
-	//	m_pDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_MIRROR);
-	//	m_pDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_MIRROR);
-
-		return mesh;
-	}
-
 	void RenderSystem::CreateMaterial()
 	{
 		m_Material.Ambient  = D3DXCOLOR( 1.0f, 1.0f, 1.0f, 1.0f );
@@ -464,7 +367,7 @@ namespace dx9
 		m_Light.Diffuse      = color;
 		m_Light.Specular     = color * 0.6f;
 		m_Light.Position     = position;
-		m_Light.Range        = 2.f;
+		m_Light.Range        = 6.0f;
 		m_Light.Falloff      = 1.0f;
 		m_Light.Attenuation0 = 1.0f;
 		m_Light.Attenuation1 = 0.0f;
@@ -492,15 +395,15 @@ namespace dx9
 	// Set render state:
 
 		// Lights on.
-		m_pDevice->SetRenderState( D3DRS_LIGHTING        , false );
-	//	m_pDevice->SetRenderState( D3DRS_SPECULARENABLE  , true );
-	//	m_pDevice->SetRenderState( D3DRS_NORMALIZENORMALS, true );
+		m_pDevice->SetRenderState( D3DRS_LIGHTING        , true );
+		m_pDevice->SetRenderState( D3DRS_SPECULARENABLE  , true );
+		m_pDevice->SetRenderState( D3DRS_NORMALIZENORMALS, true );
 
 	//	// Switch to wireframe mode.
 	//	m_pDevice->SetRenderState( D3DRS_FILLMODE, D3DFILL_WIREFRAME );
 	//
-	//	// Turn on Gouraud interpolater pixel shading.
-	//	m_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+		// Turn on Gouraud interpolater pixel shading.
+	//	m_pDevice->SetRenderState(D3DRS_LIGHTING , false);
 	//	m_pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
 
 	// Position and aim the camera.
@@ -531,7 +434,7 @@ namespace dx9
 		m_pDevice->SetTransform(D3DTS_PROJECTION, &proj);		
 	}
 
-	void RenderSystem::Render(ID3DXMesh* mesh, const float& dt)
+	void RenderSystem::RenderIndexed(ID3DXMesh* mesh, const float& dt)
 	{
 	// Spin the cube:
 
@@ -646,6 +549,116 @@ namespace dx9
 		m_pDevice->Present( nullptr, nullptr, nullptr, nullptr );
 	}
 
+	void RenderSystem::Render(Mesh& mesh, const float& dt)
+	{
+	// Spin the cube:
+
+		D3DXMATRIX RotationX;
+		D3DXMATRIX RotationY;
+		D3DXMATRIX RotationZ;
+
+		D3DXMATRIX Scaling;
+		D3DXMATRIX Translation;
+
+		static float32 scale = 1.0f;
+
+		D3DXMatrixScaling( &Scaling, scale, scale, scale );
+
+		static float32 tx = 0.0f;
+		static float32 ty = -7.0f;
+		static float32 tz = 0.0f;
+
+		D3DXMatrixTranslation( &Translation, tx, ty, tz);
+
+	// Rotate x-axis:
+
+		static float32 x = 0.0f;
+		D3DXMatrixRotationX( &RotationX, x );
+
+	// Rotate y-axis:
+
+		static float32 y = 0.0f;
+		D3DXMatrixRotationY( &RotationY, y );
+
+	// Rotate z-axis:
+
+		static float32 z = 0.0f;
+		D3DXMatrixRotationZ( &RotationZ, z );
+
+	// TEST CONTROLS:
+
+		if (::GetAsyncKeyState('Z') & 0x8000f)
+		{
+			x += dt;
+		}
+		
+		if (::GetAsyncKeyState('X') & 0x8000f)
+		{
+			y += dt;
+		}
+
+		if (::GetAsyncKeyState('C') & 0x8000f)
+		{
+			z += dt;
+		}
+
+		if (::GetAsyncKeyState('Q') & 0x8000f)
+		{
+			this->SetView( dt );
+		}
+		else if (::GetAsyncKeyState('E') & 0x8000f)
+		{
+			this->SetView( -dt );
+		}
+
+		if (::GetAsyncKeyState('R') & 0x8000f)
+		{
+			scale -= dt;
+		}
+		else if (::GetAsyncKeyState('T') & 0x8000f)
+		{
+			scale += dt;
+		}
+
+		if (::GetAsyncKeyState('W') & 0x8000f)
+		{
+			ty += dt;
+		}
+		else if (::GetAsyncKeyState('S') & 0x8000f)
+		{
+			ty -= dt;
+		}
+
+		if (::GetAsyncKeyState('A') & 0x8000f)
+		{
+			tx -= dt;
+		}
+		else if (::GetAsyncKeyState('D') & 0x8000f)
+		{
+			tx += dt;
+		}
+
+	// Combine x-axis, y-axis and z-axis rotation transformations:
+
+		D3DXMATRIX WorldMatrix = Translation * Scaling * RotationX * RotationY * RotationZ;
+
+		m_pDevice->SetTransform( D3DTS_WORLD, &WorldMatrix);
+
+	// Draw the scene:
+
+		m_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, Color::DarkGrey, 1.0f, 0 );
+		m_pDevice->BeginScene();
+	
+		m_pDevice->SetStreamSource( 0, mesh.GetVertexBuffer(), 0, sizeof(Vertex) );
+		m_pDevice->SetFVF( mesh.GetFVF() );
+		m_pDevice->SetMaterial( &mesh.GetMaterial() );
+
+		m_pDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, mesh.GetFacesAmount() );
+
+		m_pDevice->EndScene();
+		m_pDevice->Present( nullptr, nullptr, nullptr, nullptr );
+	}
+
 
 // Accessors:
 
@@ -657,6 +670,7 @@ namespace dx9
 
 // Private Functions:
 
+/*
 	void RenderSystem::LogVertices(std::ofstream& outFile, ID3DXMesh* mesh)
 	{
 		outFile << "Vertices:" << "\n";
@@ -775,5 +789,5 @@ namespace dx9
 
 		outFile << std::endl << std::endl;
 	}
-
+*/
 }

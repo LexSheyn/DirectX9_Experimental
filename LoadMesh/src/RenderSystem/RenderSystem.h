@@ -1,9 +1,8 @@
 #ifndef RENDERSYSTEM_H
 #define RENDERSYSTEM_H
 
-#include "D3DUtility.h"
-#include "Vertex.h"
 #include "Color.h"
+#include "Mesh.h"
 
 namespace dx9
 {
@@ -25,7 +24,6 @@ namespace dx9
 			                   const std::vector<uint32>& iIndices,
 			                         std::vector<D3DMATERIAL9>& iMaterials, 
 			                         std::vector<IDirect3DTexture9*>& iPtrTextures );
-		ID3DXMesh* CreateMesh( Vertex iVertices[], const uint32& iVerticesAmount, uint32 iIndices[], const uint32& iIndicesAmount );
 
 		// TEST
 		void CreateMaterial();
@@ -39,7 +37,9 @@ namespace dx9
 		// TEST
 		void SetView( const float& dt );
 
-		void Render( ID3DXMesh* mesh, const float& dt );
+		void RenderIndexed( ID3DXMesh* mesh, const float& dt );
+
+		void Render( Mesh& mesh, const float& dt );
 
 	// Accessors:
 
@@ -48,29 +48,24 @@ namespace dx9
 	private:
 
 	// Private Functions:
-
+		/*
 		void LogVertices( std::ofstream& outFile, ID3DXMesh* mesh );
 		void LogIndices( std::ofstream& outFile, ID3DXMesh* mesh );
 		void LogAttributeBuffer( std::ofstream& outFile, ID3DXMesh* mesh );
 		void LogAdjacencyBuffer( std::ofstream& outFile, ID3DXMesh* mesh );
 		void LogAttributeTable( std::ofstream& outFile, ID3DXMesh* mesh );
-
+		*/
 	// Variables:
 
 		HWND m_phWnd = nullptr;
-
 
 		int32 m_Width  = 0;
 
 		int32 m_Height = 0;
 
-
 		bool8 m_bWindowed = true;
 
-
-		IDirect3DVertexBuffer9* m_pVertexBuffer = nullptr;
-
-		IDirect3DIndexBuffer9* m_pIndexBuffer   = nullptr;
+	// Temporary mesh components:
 
 		D3DMATERIAL9 m_Material = {};
 

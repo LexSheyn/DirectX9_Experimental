@@ -40,7 +40,18 @@ typedef double             float64;
 #include <d3d9.h>
 #include <d3dx9.h>
 
+// Disable warnings from FBX SDK:
+#pragma warning( push ) // FBX SDK - Begin
+#pragma warning( disable : 4701)
+#pragma warning( disable : 4702)
+#pragma warning( disable : 4703)
+#pragma warning( disable : 26451)
+#pragma warning( disable : 26495)
+#pragma warning( disable : 26812)
+
 // Autodesk FBX SDK:
 #include <fbxsdk.h>
+
+#pragma warning( pop ) // FBX SDK - End
 
 #endif // STDAFX_H
