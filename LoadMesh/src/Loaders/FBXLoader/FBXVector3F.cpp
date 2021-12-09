@@ -1,4 +1,4 @@
-#include "../PrecompiledHeaders/stdafx.h"
+#include "../../PrecompiledHeaders/stdafx.h"
 #include "FBXVector3F.h"
 
 namespace fbx

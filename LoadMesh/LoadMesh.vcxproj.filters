@@ -60,31 +60,37 @@
     <ClCompile Include="src\RenderSystem\Vertex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\OBJLoader\OBJLoader.cpp">
+    <ClCompile Include="src\Loaders\OBJLoader\OBJLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\OBJLoader\Position.cpp">
+    <ClCompile Include="src\Loaders\OBJLoader\Position.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\OBJLoader\TextureCoord.cpp">
+    <ClCompile Include="src\Loaders\OBJLoader\TextureCoord.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\OBJLoader\Normal.cpp">
+    <ClCompile Include="src\Loaders\OBJLoader\Normal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\FBXLoader\FBXLoader.cpp">
+    <ClCompile Include="src\Loaders\FBXLoader\FBXLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\FBXLoader\FBXVertex.cpp">
+    <ClCompile Include="src\Loaders\FBXLoader\FBXVertex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\FBXLoader\FBXVector2F.cpp">
+    <ClCompile Include="src\Loaders\FBXLoader\FBXVector2F.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\FBXLoader\FBXVector3F.cpp">
+    <ClCompile Include="src\Loaders\FBXLoader\FBXVector3F.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\RenderSystem\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Loaders\STLLoader\STLLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Loaders\STLLoader\Vector3F64.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,31 +137,37 @@
     <ClInclude Include="src\RenderSystem\Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\OBJLoader\OBJLoader.h">
+    <ClInclude Include="src\Loaders\OBJLoader\OBJLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\OBJLoader\Position.h">
+    <ClInclude Include="src\Loaders\OBJLoader\Position.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\OBJLoader\TextureCoord.h">
+    <ClInclude Include="src\Loaders\OBJLoader\TextureCoord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\OBJLoader\Normal.h">
+    <ClInclude Include="src\Loaders\OBJLoader\Normal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\FBXLoader\FBXLoader.h">
+    <ClInclude Include="src\Loaders\FBXLoader\FBXLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\FBXLoader\FBXVertex.h">
+    <ClInclude Include="src\Loaders\FBXLoader\FBXVertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\FBXLoader\FBXVector2F.h">
+    <ClInclude Include="src\Loaders\FBXLoader\FBXVector2F.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\FBXLoader\FBXVector3F.h">
+    <ClInclude Include="src\Loaders\FBXLoader\FBXVector3F.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\RenderSystem\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Loaders\STLLoader\STLLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Loaders\STLLoader\Vector3F64.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

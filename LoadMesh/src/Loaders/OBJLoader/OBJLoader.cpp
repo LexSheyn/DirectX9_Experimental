@@ -1,4 +1,4 @@
-#include "../PrecompiledHeaders/stdafx.h"
+#include "../../PrecompiledHeaders/stdafx.h"
 #include "OBJLoader.h"
 
 namespace obj
@@ -28,9 +28,9 @@ namespace obj
 
 	// Vertex positions:
 
-		std::vector<D3DXVECTOR3> vertex_positions;
-		std::vector<D3DXVECTOR2> vertex_texCoords;
-		std::vector<D3DXVECTOR3> vertex_normals;
+		std::vector<Position>     vertex_positions;
+		std::vector<TextureCoord> vertex_texCoords;
+		std::vector<Normal>       vertex_normals;
 
 	// Face vectors:
 
@@ -45,16 +45,12 @@ namespace obj
 		std::string line;
 		std::string prefix;
 
-		D3DXVECTOR3 temp_vec3;
-		D3DXVECTOR2 temp_vec2;
-		uint32 temp_uint32 = 0u;
+		Position     temp_position;		
+		TextureCoord temp_texCoord;
+		Normal       temp_normal;;
+		uint32       temp_index = 0u;
 
 		std::ifstream inFile;
-
-		// TEST
-		size_t NumVertexPos = 0u;
-		size_t NumVertexTexCoords = 0u;
-		size_t NumVertexNormals = 0u;
 
 		inFile.open( pathToOBJ );
 
@@ -92,41 +88,41 @@ namespace obj
 				}
 				else if ( prefix == "v" ) // Geometric Vertex
 				{
-					inStrStream >> temp_vec3.x >> temp_vec3.y >> temp_vec3.z;
+					inStrStream >> temp_position.x >> temp_position.y >> temp_position.z;
 
-					vertex_positions.push_back( temp_vec3 );
+					vertex_positions.push_back( temp_position );
 				}
 				else if ( prefix == "vt" ) // Texture Vertex
 				{
-					inStrStream >> temp_vec2.x >> temp_vec2.y;
+					inStrStream >> temp_texCoord.u >> temp_texCoord.v;
 
-					vertex_texCoords.push_back( temp_vec2 );
+					vertex_texCoords.push_back( temp_texCoord );
 				}
 				else if ( prefix == "vn" ) // Vertex Normal
 				{
-					inStrStream >> temp_vec3.x >> temp_vec3.y >> temp_vec3.z;
+					inStrStream >> temp_normal.x >> temp_normal.y >> temp_normal.z;
 
-					vertex_normals.push_back( temp_vec3 );
+					vertex_normals.push_back( temp_normal );
 				}
 				else if ( prefix == "f" ) // Face
 				{
 					uint32 counter = 0u;
 
-					while ( inStrStream >> temp_uint32 )
+					while ( inStrStream >> temp_index )
 					{
 					// Push indices into correct vectore:
 
 						if ( counter == 0u )
 						{
-							vertex_position_indices.push_back( temp_uint32 );
+							vertex_position_indices.push_back( temp_index );
 						}
 						else if ( counter == 1u )
 						{
-							vertex_texCoord_indices.push_back( temp_uint32 );
+							vertex_texCoord_indices.push_back( temp_index );
 						}
 						else if ( counter == 2u )
 						{
-							vertex_normal_indices.push_back( temp_uint32 );
+							vertex_normal_indices.push_back( temp_index );
 						}
 
 					// Handle characters:
@@ -160,9 +156,16 @@ namespace obj
 
 			for ( size_t i = 0u; i < m_Vertices.size(); i++ )
 			{
-				m_Vertices[i].position     = vertex_positions[vertex_position_indices[i] - 1u];
-				m_Vertices[i].textureCoord = vertex_texCoords[vertex_texCoord_indices[i] - 1u];
-				m_Vertices[i].normal       = vertex_normals[vertex_normal_indices[i] - 1u];
+				m_Vertices[i].position.x     = vertex_positions[vertex_position_indices[i] - 1u].x;
+				m_Vertices[i].position.y     = vertex_positions[vertex_position_indices[i] - 1u].y;
+				m_Vertices[i].position.z     = vertex_positions[vertex_position_indices[i] - 1u].z;
+
+				m_Vertices[i].textureCoord.x = vertex_texCoords[vertex_texCoord_indices[i] - 1u].u;
+				m_Vertices[i].textureCoord.y = vertex_texCoords[vertex_texCoord_indices[i] - 1u].v;
+
+				m_Vertices[i].normal.x       = vertex_normals[vertex_normal_indices[i] - 1u].x;
+				m_Vertices[i].normal.y       = vertex_normals[vertex_normal_indices[i] - 1u].y;
+				m_Vertices[i].normal.z       = vertex_normals[vertex_normal_indices[i] - 1u].z;
 			}
 
 			m_VerticesAmount = static_cast<uint32>( m_Vertices.size() );

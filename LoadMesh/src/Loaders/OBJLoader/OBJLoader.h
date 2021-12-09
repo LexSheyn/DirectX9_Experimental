@@ -7,8 +7,8 @@
 #include "Normal.h"
 
 // External dependancies:
-#include "../RenderSystem/D3DUtility.h"
-#include "../RenderSystem/Vertex.h"
+#include "../../RenderSystem/D3DUtility.h"
+#include "../../RenderSystem/Vertex.h"
 
 namespace obj
 {

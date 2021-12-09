@@ -1,4 +1,4 @@
-#include "../PrecompiledHeaders/stdafx.h"
+#include "../../PrecompiledHeaders/stdafx.h"
 #include "TextureCoord.h"
 
 namespace obj

@@ -8,15 +8,17 @@
 	{
 	// Loading Mesh:
 
-		bool8 result = false;
+	//	m_OBJLoader.LoadOBJ( "D:/Models/robot_triangulated/robot_triangulated.obj", true );
+		m_OBJLoader.LoadMaterial( "D:/Models/robot_triangulated/robot_triangulated.mtl" );
 
-		result = m_OBJLoader.LoadOBJ( "D:/Models/robot_triangulated/robot_triangulated.obj", true );
+		m_STLLoader.LoadSTL( "D:/Models/Technovotum/VTM_VTP_ASCII.STL" );
 		
-		TestMesh.CreateVertexBuffer( m_Window.GetRenderSystem().GetDevice(), m_OBJLoader.GetVertices(), m_OBJLoader.GetFacesAmount() );
+	//	TestMesh.CreateVertexBuffer( m_Window.GetRenderSystem().GetDevice(), m_OBJLoader.GetVertices(), m_OBJLoader.GetFacesAmount() );
+		TestMesh.CreateVertexBuffer( m_Window.GetRenderSystem().GetDevice(), m_STLLoader.GetVertices(), m_STLLoader.GetFacesAmount() );
 
 		TestMesh.SetMaterial( m_OBJLoader.GetMaterials().at( 0u ) );
 
-		D3DXVECTOR3 lightPosition = { 0.0f, 3.0f, -6.0f };
+		D3DXVECTOR3 lightPosition = { 0.0f, 0.0f, -100.0f };
 
 		m_Window.GetRenderSystem().CreateLight( lightPosition, dx9::Color::White );
 

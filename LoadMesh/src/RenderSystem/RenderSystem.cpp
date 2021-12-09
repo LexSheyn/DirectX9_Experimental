@@ -362,12 +362,13 @@ namespace dx9
 	{
 		::ZeroMemory( &m_Light, sizeof(m_Light) );
 
-		m_Light.Type         = D3DLIGHT_POINT;
+		m_Light.Type         = D3DLIGHT_SPOT;
+		m_Light.Position     = position;
+		m_Light.Direction    = D3DXVECTOR3( 0.0f, 0.0f, 1.0f );
 		m_Light.Ambient      = color * 0.6f;
 		m_Light.Diffuse      = color;
-		m_Light.Specular     = color * 0.6f;
-		m_Light.Position     = position;
-		m_Light.Range        = 6.0f;
+		m_Light.Specular     = color * 0.3f;		
+		m_Light.Range        = 500.0f;
 		m_Light.Falloff      = 1.0f;
 		m_Light.Attenuation0 = 1.0f;
 		m_Light.Attenuation1 = 0.0f;
@@ -408,7 +409,7 @@ namespace dx9
 
 	// Position and aim the camera.
 
-		static float32 distance_z = -10.0f;
+		static float32 distance_z = 0.0f;
 
 		distance_z += dt;
 
@@ -565,7 +566,7 @@ namespace dx9
 		D3DXMatrixScaling( &Scaling, scale, scale, scale );
 
 		static float32 tx = 0.0f;
-		static float32 ty = -7.0f;
+		static float32 ty = 0.0f;
 		static float32 tz = 0.0f;
 
 		D3DXMatrixTranslation( &Translation, tx, ty, tz);
@@ -587,28 +588,36 @@ namespace dx9
 
 	// TEST CONTROLS:
 
-		if (::GetAsyncKeyState('Z') & 0x8000f)
+		if (::GetAsyncKeyState('I') & 0x8000f)
+		{
+			x -= dt;
+		}
+		else if (::GetAsyncKeyState('K') & 0x8000f)
 		{
 			x += dt;
 		}
 		
-		if (::GetAsyncKeyState('X') & 0x8000f)
+		if (::GetAsyncKeyState('L') & 0x8000f)
 		{
 			y += dt;
 		}
-
-		if (::GetAsyncKeyState('C') & 0x8000f)
+		else if (::GetAsyncKeyState('J') & 0x8000f)
 		{
-			z += dt;
+			y -= dt;
 		}
+
+	//	if (::GetAsyncKeyState('C') & 0x8000f)
+	//	{
+	//		z += dt;
+	//	}
 
 		if (::GetAsyncKeyState('Q') & 0x8000f)
 		{
-			this->SetView( dt );
+			this->SetView( dt * 20.0f );
 		}
 		else if (::GetAsyncKeyState('E') & 0x8000f)
 		{
-			this->SetView( -dt );
+			this->SetView( -dt * 20.0f );
 		}
 
 		if (::GetAsyncKeyState('R') & 0x8000f)
@@ -622,20 +631,20 @@ namespace dx9
 
 		if (::GetAsyncKeyState('W') & 0x8000f)
 		{
-			ty += dt;
+			ty += dt * 10.0f;
 		}
 		else if (::GetAsyncKeyState('S') & 0x8000f)
 		{
-			ty -= dt;
+			ty -= dt * 10.0f;
 		}
 
 		if (::GetAsyncKeyState('A') & 0x8000f)
 		{
-			tx -= dt;
+			tx -= dt * 10.0f;
 		}
 		else if (::GetAsyncKeyState('D') & 0x8000f)
 		{
-			tx += dt;
+			tx += dt * 10.0f;
 		}
 
 	// Combine x-axis, y-axis and z-axis rotation transformations:

@@ -3,7 +3,8 @@
 
 #include "../Window/Window.h"
 #include "../Timer/Timer.h"
-#include "../OBJLoader/OBJLoader.h"
+#include "../Loaders/OBJLoader/OBJLoader.h"
+#include "../Loaders/STLLoader/STLLoader.h"
 
 class Application
 {
@@ -37,6 +38,8 @@ private:
 	dx9::Mesh TestMesh;
 
 	obj::OBJLoader m_OBJLoader;
+
+	stl::STLLoader m_STLLoader;
 };
 
 #endif // APPLICATION_H
