@@ -9,14 +9,44 @@
 	// Loading Mesh:
 
 	//	m_OBJLoader.LoadOBJ( "D:/Models/robot_triangulated/robot_triangulated.obj", true );
-		m_OBJLoader.LoadMaterial( "D:/Models/robot_triangulated/robot_triangulated.mtl" );
+		m_OBJLoader.LoadMaterial( "D:/Models/Technovotum/material_1.mtl" );
+		m_OBJLoader.LoadMaterial( "D:/Models/Technovotum/material_2.mtl" );
 
 		m_STLLoader.LoadSTL( "D:/Models/Technovotum/VTM_VTP_ASCII.STL" );
 		
-	//	TestMesh.CreateVertexBuffer( m_Window.GetRenderSystem().GetDevice(), m_OBJLoader.GetVertices(), m_OBJLoader.GetFacesAmount() );
-		TestMesh.CreateVertexBuffer( m_Window.GetRenderSystem().GetDevice(), m_STLLoader.GetVertices(), m_STLLoader.GetFacesAmount() );
+	//	Meshes[0].CreateVertexBuffer( m_Window.GetRenderSystem().GetDevice(), m_OBJLoader.GetVertices(), m_OBJLoader.GetFacesAmount() );
+	//	Meshes[0].CreateVertexBuffer( m_Window.GetRenderSystem().GetDevice(), m_STLLoader.GetVertices(), m_STLLoader.GetFacesAmount() );
 
-		TestMesh.SetMaterial( m_OBJLoader.GetMaterials().at( 0u ) );
+	// TEST ---------------------------------------------------------------------------------:
+
+		std::vector<dx9::Vertex> vertices_1;
+
+		vertices_1.resize( 4170u ); // v 8340, f 2780
+
+		for ( size_t i = 0u; i < 4170u ; i++ )
+		{
+			vertices_1[i] = m_STLLoader.GetVertices().at( i );
+		}
+
+		std::vector<dx9::Vertex> vertices_2;
+
+		vertices_2.resize( 4170u );
+
+		for ( size_t i = 0u; i < 4170u; i++ )
+		{
+			vertices_2[i] = m_STLLoader.GetVertices().at( i + 4170u );
+		}
+
+		Meshes[0].CreateVertexBuffer( m_Window.GetRenderSystem().GetDevice(), vertices_1, 1390u );
+		Meshes[1].CreateVertexBuffer( m_Window.GetRenderSystem().GetDevice(), vertices_2, 1390u );
+
+		Meshes[0].SetMaterial(m_OBJLoader.GetMaterials().at( 0 ));
+		Meshes[1].SetMaterial(m_OBJLoader.GetMaterials().at( 1 ));
+
+	// --------------------------------------------------------------------------------------		
+
+		m_Window.GetRenderSystem().AddToQueue( &Meshes[0] );
+		m_Window.GetRenderSystem().AddToQueue( &Meshes[1] );
 
 		D3DXVECTOR3 lightPosition = { 0.0f, 0.0f, -100.0f };
 
@@ -58,5 +88,5 @@
 
 	void Application::DoFrame()
 	{
-		m_Window.GetRenderSystem().Render( TestMesh, 0.1f );
+		m_Window.GetRenderSystem().Render( 0.1f );
 	}

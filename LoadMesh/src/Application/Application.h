@@ -33,9 +33,7 @@ private:
 
 // TEST:
 
-	ID3DXMesh* mesh = nullptr;
-
-	dx9::Mesh TestMesh;
+	dx9::Mesh Meshes[3];
 
 	obj::OBJLoader m_OBJLoader;
 

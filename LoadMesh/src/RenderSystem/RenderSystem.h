@@ -18,12 +18,7 @@ namespace dx9
 
 	// Functions:
 
-		// CREATE MESH BOX TEST
-		ID3DXMesh* CreateMesh();
-		ID3DXMesh* CreateMesh( const std::vector<Vertex>& iVertices, 
-			                   const std::vector<uint32>& iIndices,
-			                         std::vector<D3DMATERIAL9>& iMaterials, 
-			                         std::vector<IDirect3DTexture9*>& iPtrTextures );
+		void AddToQueue( Mesh* mesh );
 
 		// TEST
 		void CreateMaterial();
@@ -37,9 +32,9 @@ namespace dx9
 		// TEST
 		void SetView( const float& dt );
 
-		void RenderIndexed( ID3DXMesh* mesh, const float& dt );
+		void Clear( D3DCOLOR color );
 
-		void Render( Mesh& mesh, const float& dt );
+		void Render( const float& dt );
 
 	// Accessors:
 
@@ -47,14 +42,6 @@ namespace dx9
 
 	private:
 
-	// Private Functions:
-		/*
-		void LogVertices( std::ofstream& outFile, ID3DXMesh* mesh );
-		void LogIndices( std::ofstream& outFile, ID3DXMesh* mesh );
-		void LogAttributeBuffer( std::ofstream& outFile, ID3DXMesh* mesh );
-		void LogAdjacencyBuffer( std::ofstream& outFile, ID3DXMesh* mesh );
-		void LogAttributeTable( std::ofstream& outFile, ID3DXMesh* mesh );
-		*/
 	// Variables:
 
 		HWND m_phWnd = nullptr;
@@ -67,6 +54,8 @@ namespace dx9
 
 	// Temporary mesh components:
 
+		std::vector<Mesh*> m_Meshes;
+
 		D3DMATERIAL9 m_Material = {};
 
 		D3DLIGHT9 m_Light = {};
@@ -74,11 +63,6 @@ namespace dx9
 		IDirect3DTexture9* m_pTexture;
 
 	// Temporary Mesh:
-
-		IDirect3DTexture9* m_pMeshTextures[3] = { nullptr, nullptr, nullptr };
-
-		std::ofstream m_OutFile;
-
 
 		IDirect3D9* m_pDirect3D  = nullptr;
 
