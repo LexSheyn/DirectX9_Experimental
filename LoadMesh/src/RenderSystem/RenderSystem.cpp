@@ -20,12 +20,12 @@ namespace dx9
 
 		if ( m_DeviceCapabilities.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT )
 		{
-		//	m_VertexProcessing = D3DCREATE_HARDWARE_VERTEXPROCESSING;
-			m_VertexProcessing = D3DCREATE_SOFTWARE_VERTEXPROCESSING;
+			m_VertexProcessing = D3DCREATE_HARDWARE_VERTEXPROCESSING;
+		//	m_VertexProcessing = D3DCREATE_SOFTWARE_VERTEXPROCESSING;
 		}
 		else
 		{
-			MessageBoxA( nullptr, "No hardware vertex processing available!", "Error", 0u );
+			MessageBoxA( nullptr, "ERROR::No hardware vertex processing available!", "RenderSystem", 0u );
 
 			return;
 		}		

@@ -99,10 +99,10 @@
 		m_Window.GetRenderSystem().Render( Meshes[0] ); // 1-st draw call.
 		m_Window.GetRenderSystem().Render( Meshes[1] ); // 2-nd draw call.
 
-		// TEST
-		static dx9::Menu menu( m_Window.GetHandle(), m_Window.GetRenderSystem().GetDevice() );
-		
+	// TEST------------------------------------------------------------------------------------
+		static dx9::Menu menu( m_Window.GetHandle(), m_Window.GetRenderSystem().GetDevice() );		
 		m_Window.GetRenderSystem().Render( menu ); // 3-rd draw call.
+	// ----------------------------------------------------------------------------------------
 
 		m_Window.GetRenderSystem().Display();
 	}
