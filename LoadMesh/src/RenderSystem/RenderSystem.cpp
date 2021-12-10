@@ -170,7 +170,7 @@ namespace dx9
 		m_pDevice->SetTransform(D3DTS_PROJECTION, &proj);		
 	}
 
-	void RenderSystem::SetTransformationFromInput(const float& dt)
+	void RenderSystem::SetWorldTransformFromInput( const float& dt )
 	{
 	// Spin the cube:
 

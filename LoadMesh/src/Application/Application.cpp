@@ -90,14 +90,19 @@
 	{
 	// Set World transformation matrix:
 
-		m_Window.GetRenderSystem().SetTransformationFromInput( 0.1f );
+		m_Window.GetRenderSystem().SetWorldTransformFromInput( 0.1f );
 
 	// Render:
 
 		m_Window.GetRenderSystem().Clear();
 
-		m_Window.GetRenderSystem().Render( Meshes[0] ); // 1 draw call
-		m_Window.GetRenderSystem().Render( Meshes[1] ); // 2 draw call
+		m_Window.GetRenderSystem().Render( Meshes[0] ); // 1-st draw call.
+		m_Window.GetRenderSystem().Render( Meshes[1] ); // 2-nd draw call.
+
+		// TEST
+		static dx9::Menu menu( m_Window.GetHandle(), m_Window.GetRenderSystem().GetDevice() );
+		
+		m_Window.GetRenderSystem().Render( menu ); // 3-rd draw call.
 
 		m_Window.GetRenderSystem().Display();
 	}

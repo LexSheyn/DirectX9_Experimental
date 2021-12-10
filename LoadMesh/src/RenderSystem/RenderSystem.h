@@ -36,12 +36,28 @@ namespace dx9
 		/// <param name="dt">
 		/// - Delta time applied to all transformations as a coefficient.
 		/// </param>
-		void SetTransformationFromInput( const float& dt );
+		void SetWorldTransformFromInput( const float& dt );
 
+		/// <summary>
+		/// Clears backbuffer with chosen color.
+		/// </summary>
+		/// <param name="color">
+		/// - Color::DarkGray by default, technically can be any DWORD value.
+		/// </param>
 		void Clear( D3DCOLOR color = Color::DarkGray );
 
+		/// <summary>
+		/// Draw object to the backbuffer. It is an actual draw call.
+		/// </summary>
+		/// <param name="object">
+		/// - Any object inherited from the Drawable class that has function Draw().
+		/// For example: Mesh, Shape, GUI element... and so on.
+		/// </param>
 		void Render( Drawable& object );
 
+		/// <summary>
+		/// Perform swap-chain and display backbuffer's data on the screen.
+		/// </summary>
 		void Display();
 
 	// Accessors:

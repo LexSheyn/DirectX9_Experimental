@@ -6,6 +6,8 @@
 #include "../Loaders/OBJLoader/OBJLoader.h"
 #include "../Loaders/STLLoader/STLLoader.h"
 
+#include "../GUI/Menu.h"
+
 class Application
 {
 public:
