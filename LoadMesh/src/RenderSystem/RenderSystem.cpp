@@ -74,11 +74,6 @@ namespace dx9
 	{
 		m_phWnd = nullptr;
 
-		for ( auto& mesh : m_Meshes )
-		{
-			mesh = nullptr;
-		}
-
 		dx9::Release( m_pDirect3D );
 
 		dx9::Release( m_pDevice );
@@ -86,11 +81,6 @@ namespace dx9
 
 
 // Functions:
-
-	void RenderSystem::AddToQueue( Mesh* mesh )
-	{
-		m_Meshes.push_back( mesh );
-	}
 
 	void RenderSystem::CreateMaterial()
 	{
@@ -180,12 +170,7 @@ namespace dx9
 		m_pDevice->SetTransform(D3DTS_PROJECTION, &proj);		
 	}
 
-	void RenderSystem::Clear( D3DCOLOR color )
-	{
-		m_pDevice->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, color, 1.0f, 0);
-	}
-
-	void RenderSystem::Render( const float& dt )
+	void RenderSystem::SetTransformationFromInput(const float& dt)
 	{
 	// Spin the cube:
 
@@ -282,23 +267,23 @@ namespace dx9
 		D3DXMATRIX WorldMatrix = Translation * Scaling * RotationX * RotationY * RotationZ;
 
 		m_pDevice->SetTransform( D3DTS_WORLD, &WorldMatrix);
+	}
 
-	// Draw the scene:
-
-		m_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, Color::DarkGrey, 1.0f, 0 );
+	void RenderSystem::Clear( D3DCOLOR color )
+	{
+		m_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, color, 1.0f, 0 );
 		m_pDevice->BeginScene();
-	
-		for ( size_t i = 0u; i < m_Meshes.size(); i++ )
-		{
-			// Set transformations here before rendering... To do..
-	
-			m_pDevice->SetStreamSource( 0u, m_Meshes[i]->GetVertexBuffer(), 0, sizeof(Vertex) );
-			m_pDevice->SetFVF( m_Meshes[i]->GetFVF() );
-			m_pDevice->SetMaterial( &m_Meshes[i]->GetMaterial() );
-			m_pDevice->SetTexture( 0u, m_Meshes[i]->GetTexture() );
-			m_pDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, m_Meshes[i]->GetFacesAmount() );
-		}
-	
+	}
+
+	void RenderSystem::Render( Drawable& object )
+	{
+	// Draw object:
+
+		object.Draw();
+	}
+
+	void RenderSystem::Display()
+	{
 		m_pDevice->EndScene();
 		m_pDevice->Present( nullptr, nullptr, nullptr, nullptr );
 	}

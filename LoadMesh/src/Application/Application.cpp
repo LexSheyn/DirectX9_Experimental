@@ -45,8 +45,8 @@
 
 	// --------------------------------------------------------------------------------------		
 
-		m_Window.GetRenderSystem().AddToQueue( &Meshes[0] );
-		m_Window.GetRenderSystem().AddToQueue( &Meshes[1] );
+	//	m_Window.GetRenderSystem().AddToQueue( &Meshes[0] );
+	//	m_Window.GetRenderSystem().AddToQueue( &Meshes[1] );
 
 		D3DXVECTOR3 lightPosition = { 0.0f, 0.0f, -100.0f };
 
@@ -88,5 +88,16 @@
 
 	void Application::DoFrame()
 	{
-		m_Window.GetRenderSystem().Render( 0.1f );
+	// Set World transformation matrix:
+
+		m_Window.GetRenderSystem().SetTransformationFromInput( 0.1f );
+
+	// Render:
+
+		m_Window.GetRenderSystem().Clear();
+
+		m_Window.GetRenderSystem().Render( Meshes[0] ); // 1 draw call
+		m_Window.GetRenderSystem().Render( Meshes[1] ); // 2 draw call
+
+		m_Window.GetRenderSystem().Display();
 	}

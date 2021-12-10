@@ -18,8 +18,6 @@ namespace dx9
 
 	// Functions:
 
-		void AddToQueue( Mesh* mesh );
-
 		// TEST
 		void CreateMaterial();
 
@@ -32,9 +30,19 @@ namespace dx9
 		// TEST
 		void SetView( const float& dt );
 
-		void Clear( D3DCOLOR color );
+		/// <summary>
+		/// Test function, handles all input fro setting scene transformation matrix.
+		/// </summary>
+		/// <param name="dt">
+		/// - Delta time applied to all transformations as a coefficient.
+		/// </param>
+		void SetTransformationFromInput( const float& dt );
 
-		void Render( const float& dt );
+		void Clear( D3DCOLOR color = Color::DarkGray );
+
+		void Render( Drawable& object );
+
+		void Display();
 
 	// Accessors:
 
@@ -54,15 +62,13 @@ namespace dx9
 
 	// Temporary mesh components:
 
-		std::vector<Mesh*> m_Meshes;
-
 		D3DMATERIAL9 m_Material = {};
 
 		D3DLIGHT9 m_Light = {};
 
 		IDirect3DTexture9* m_pTexture;
 
-	// Temporary Mesh:
+	// Components:
 
 		IDirect3D9* m_pDirect3D  = nullptr;
 

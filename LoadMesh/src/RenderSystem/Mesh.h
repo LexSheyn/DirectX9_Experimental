@@ -4,9 +4,11 @@
 #include "Vertex.h"
 #include "D3DUtility.h"
 
+#include "Drawable.h"
+
 namespace dx9
 {
-	class Mesh
+	class Mesh : public Drawable
 	{
 	public:
 
@@ -19,6 +21,8 @@ namespace dx9
 	// Functions:
 
 		HRESULT CreateVertexBuffer( IDirect3DDevice9* pD3DDevice, const std::vector<Vertex>& iVertices, const uint32& facesAmount );
+
+		void Draw() override;
 
 	// Accessord:
 

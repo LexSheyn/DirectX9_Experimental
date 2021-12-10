@@ -33,7 +33,7 @@ namespace dx9
 
 	// Initialize components:
 
-		m_pD3DDevice = pD3DDevice;
+		m_pD3DDevice  = pD3DDevice;
 
 		m_Vertices    = iVertices;
 
@@ -52,6 +52,15 @@ namespace dx9
 		m_pVertexBuffer->Unlock();
 
 		return result;
+	}
+
+	void Mesh::Draw()
+	{
+		m_pD3DDevice->SetStreamSource( 0u, this->GetVertexBuffer(), 0, sizeof(Vertex) );
+		m_pD3DDevice->SetFVF( this->GetFVF() );
+		m_pD3DDevice->SetMaterial( &this->GetMaterial() );
+		m_pD3DDevice->SetTexture( 0u, this->GetTexture() );
+		m_pD3DDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, this->GetFacesAmount() );
 	}
 
 
